@@ -35,14 +35,10 @@ namespace DAL
 
             using (UnitOfWork)
             {
-                var i = this.UnitOfWork.Connection.Execute(strSql, t);//  this.UnitOfWork.Transaction 默认为空，当业务层开启后 此操作才是事务操作
-
-                //var i = this.UnitOfWork.Connection.Execute(strSql, t, this.UnitOfWork.Transaction);//  this.UnitOfWork.Transaction 默认为空，当业务层开启后 此操作才是事务操作
+                var i = this.UnitOfWork.Connection.Execute(strSql, t);
                 return i;
             }
-
         }
-
 
         public List<T> Query(string strSql, DynamicParameters Para)
         {
@@ -86,9 +82,5 @@ namespace DAL
                 return pageData;
             }
         }
-
-
-
-
     }
 }

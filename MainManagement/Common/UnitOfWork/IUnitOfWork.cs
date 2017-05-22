@@ -14,14 +14,6 @@ namespace Common.UnitOfWork
     {
         IDbConnection Connection { get; }
 
-        //IDbTransaction Transaction { get; }
-
-        //void Commit();
-
-        //void Rollback();
-
-        //void BeginTransaction();
-
-        void UseTransaction(Action action);
+        void ExcuteTransaction(Action action);
     }
 }

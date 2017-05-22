@@ -19,8 +19,6 @@ namespace Common.UnitOfWork
 
         public IDbConnection Connection { get; private set; }
 
-        //public IDbTransaction Transaction { get; private set; }
-
         public UnitOfWork()
         {
             this.Connection = new SqlConnection(connString);
@@ -31,26 +29,7 @@ namespace Common.UnitOfWork
         }
 
 
-        //public void BeginTransaction()
-        //{
-        //    this.Transaction = this.Connection.BeginTransaction();
-        //}
-
-        //public void Commit()
-        //{
-        //    try
-        //    {
-        //        this.Transaction.Commit();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Rollback();
-        //        throw;
-        //    }
-
-        //}
-
-        public void UseTransaction(Action action)
+        public void ExcuteTransaction(Action action)
         {
             using (var scope=new TransactionScope())
             {
@@ -73,14 +52,6 @@ namespace Common.UnitOfWork
             this.Connection?.Close();
             this.Connection?.Dispose();
             this.Connection = null;
-
-            //this.Transaction?.Dispose();
-            //this.Transaction = null;
         }
-
-        //public void Rollback()
-        //{
-        //    this.Transaction.Rollback();
-        //}
     }
 }

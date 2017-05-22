@@ -28,13 +28,11 @@ namespace BLL
         {
             using (_unitofwork)
             {
-                var a = 5;
-                _unitofwork.UseTransaction(()=>
+                _unitofwork.ExcuteTransaction(()=>
                 {
                     t.ContactID = Guid.NewGuid();
-                    a=_Dal.Insert(t);
+                    _Dal.Insert(t);
                 });
-                var b = a;
             }  
         }
     }
