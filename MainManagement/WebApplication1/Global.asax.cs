@@ -9,7 +9,7 @@ using System.Web.Routing;
 
 using Autofac;
 using Autofac.Integration.Mvc;
-
+using Common;
 using Ioc;
 
 namespace WebApplication1
@@ -22,8 +22,7 @@ namespace WebApplication1
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-
+            AutoMapperHelper.MapObject();
             var builder = RegisterService();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
         }

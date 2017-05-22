@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace Model
 {
@@ -16,15 +12,13 @@ namespace Model
         public Guid ContactID{ set; get; }
         public int ID { get; set; }
 
-
-
-
         ///<summary>
         /// 名称
         ///</summary>
         [Display(Name = "电话")]
         [Required(ErrorMessage = "必填项")]
         [StringLength(11, ErrorMessage = "长度不能超过11位")]
+        [Computed]
         public string Tel { get; set; }
 
         ///<summary>
