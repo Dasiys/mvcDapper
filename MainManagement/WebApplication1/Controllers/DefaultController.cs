@@ -33,20 +33,13 @@ namespace WebApplication1.Controllers
             Criteria.Sort = "ID desc ";
             Criteria.Condition = " ID>0";
 
-
             PageDataView<Contact> PageList = _contactService.GetModelsByPage(Criteria);
-
-
-
-
             List<Contact> modelList = PageList.Items;
 
             ViewBag.TotalNum = PageList.TotalNum;
             ViewBag.CurrentPage = PageList.CurrentPage;
             ViewBag.TotalPageCount = PageList.TotalPageCount;
 
-
-            
             return View(modelList);
         }
 
@@ -75,7 +68,6 @@ namespace WebApplication1.Controllers
         public ActionResult Create(Contact model)
         {
 
-          
             //ModelState.AddModelError("", "1111");
             if (ModelState.IsValid)
             {
@@ -86,16 +78,10 @@ namespace WebApplication1.Controllers
                 //_contactService.Insert(model);
 
                 _contactService.BeginTransactionInsert(model);
-                Response.Redirect("/Default/Index");
+                return RedirectToAction("Index");
                 //}
             }
-            else
-            {
-                ViewBag.error = "错误提示";
-            }
-
-
-
+            ViewBag.error = "错误提示";
             return View();
         }
 

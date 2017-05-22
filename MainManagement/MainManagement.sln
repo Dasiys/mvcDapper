@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5BED5C02-2547-49E7-BE9B-07314D4E9B41}"
 EndProject
@@ -31,8 +31,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{BDF968D6-259E-49C1-A7A8-A9A5607894FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{496BE28D-5F34-416F-A971-8256F6C846FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3D30BB1B-C650-4380-B1EA-AB7ACACEBD92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +70,6 @@ Global
 		{496BE28D-5F34-416F-A971-8256F6C846FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{496BE28D-5F34-416F-A971-8256F6C846FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{496BE28D-5F34-416F-A971-8256F6C846FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D30BB1B-C650-4380-B1EA-AB7ACACEBD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D30BB1B-C650-4380-B1EA-AB7ACACEBD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D30BB1B-C650-4380-B1EA-AB7ACACEBD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D30BB1B-C650-4380-B1EA-AB7ACACEBD92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
