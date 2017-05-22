@@ -27,11 +27,13 @@ namespace Common.UnitOfWork
                 this.Connection.Open();
             }
         }
-
-
+        /// <summary>
+        /// 使用事务
+        /// </summary>
+        /// <param name="action"></param>
         public void ExcuteTransaction(Action action)
         {
-            using (var scope=new TransactionScope())
+            using (var scope = new TransactionScope())
             {
                 try
                 {
@@ -40,7 +42,7 @@ namespace Common.UnitOfWork
                 }
                 catch (Exception e)
                 {
-                    
+
                     throw;
                 }
 

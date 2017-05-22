@@ -14,26 +14,19 @@ namespace BLL
 {
     public class ContactService:BaseService<Contact>,IContactService
     {
-        IContactDal _Dal;
-        IUnitOfWork _unitofwork;
-
-        public ContactService(IContactDal dal, IUnitOfWork unitofwork)
+        private readonly  IUnitOfWork _unitOfWork;
+        public ContactService(IContactDal dal,IUnitOfWork unitOfwork):base(dal)
         {
-            Dal = dal;
-            _Dal = dal;
-            _unitofwork = unitofwork;
+            _unitOfWork = unitOfwork;
         }
 
         public void BeginTransactionInsert(Contact t)
         {
-            using (_unitofwork)
+            _unitOfWork.ExcuteTransaction(() =>
             {
-                _unitofwork.ExcuteTransaction(()=>
-                {
-                    t.ContactID = Guid.NewGuid();
-                    _Dal.Insert(t);
-                });
-            }  
+                t.ContactID=new Guid();
+                Dal.Insert(t);
+            });
         }
     }
 }

@@ -12,9 +12,9 @@ using Common.UnitOfWork;
 
 namespace DAL
 {
-    public class ContactDAL : BaseDAL<Contact>, IContactDal
+    public class ContactDal : BaseDAL<Contact>, IContactDal
     {
-        public ContactDAL(IUnitOfWork unitOfWork)
+        public ContactDal(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
 
@@ -42,17 +42,12 @@ namespace DAL
             var args = new DynamicParameters(new { });
 
             string query = "SELECT * FROM Contact WHERE  ContactID=@ContactID";
-            //args.Add("ID", t.ID);
             args.Add("ContactID", t.ContactID);
-
             return base.Query(query, args).SingleOrDefault();
-
         }
 
         public List<Contact> GetModels(Contact t)
         {
-            //sqlText += " and Name like @Name";
-            //p.Add("Name", "%" + model.Name + "%");   like 查询时
             var args = new DynamicParameters(new { });
             string query = "SELECT * FROM Contact WHERE id > @id order by id desc ";
             args.Add("ID", t.ID);

@@ -13,7 +13,6 @@ namespace Common.UnitOfWork
     public interface IUnitOfWork:IDisposable,IDependency
     {
         IDbConnection Connection { get; }
-
         void ExcuteTransaction(Action action);
     }
 }

@@ -19,7 +19,6 @@ namespace DAL
 
         protected IUnitOfWork UnitOfWork { get; private set; }
 
-
         public BaseDAL(IUnitOfWork unitOfWork)
         {
             this.UnitOfWork = unitOfWork;
@@ -32,19 +31,27 @@ namespace DAL
         /// <returns></returns>
         protected int Execute(T t, string strSql)
         {
-
-            using (UnitOfWork)
+            using (var conn=UnitOfWork.Connection)
             {
-                var i = this.UnitOfWork.Connection.Execute(strSql, t);
+                var i = conn.Execute(strSql, t);
                 return i;
+            }
+        }
+
+        public virtual void Update(T obj)
+        {
+            using (var conn = UnitOfWork.Connection)
+            {
+                
+
             }
         }
 
         public List<T> Query(string strSql, DynamicParameters Para)
         {
-            using (UnitOfWork)
+            using (var conn = UnitOfWork.Connection)
             {
-                return this.UnitOfWork.Connection.Query<T>(strSql, Para).ToList();
+                return conn.Query<T>(strSql, Para).ToList();
             }
         }
 
@@ -56,7 +63,7 @@ namespace DAL
         /// <returns></returns>
         public  PageDataView<T> GetPageData<s>(PageCriteria criteria, object param = null)
         {
-            using (UnitOfWork)
+            using (var conn = UnitOfWork.Connection)
             {
 
                 var p = new DynamicParameters();
@@ -70,7 +77,7 @@ namespace DAL
                 p.Add("Sort", criteria.Sort);
                 p.Add("RecordCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var pageData = new PageDataView<T>();
-                pageData.Items = this.UnitOfWork.Connection.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList();
+                pageData.Items = conn.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList();
 
                 pageData.TotalNum = p.Get<int>("RecordCount");
                 pageData.TotalPageCount = Convert.ToInt32(Math.Ceiling(pageData.TotalNum * 1.0 / criteria.PageSize));
