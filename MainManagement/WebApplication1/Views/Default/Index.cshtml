@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Model.Contact>
+
+@{
+    
+    ViewBag.Title = "Index";
+
+    string cht = "asdi";
+    @cht;
+
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @*@item.Tel*@
+            @Html.DisplayFor(modelItem => item.Tel)
+        </td>
+        <td>
+            @Html.ActionLink("编辑", "Edit", new {ID=item.ContactID,tel=item.Tel}) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("删除", "Delete", new {  id=item.ContactID })
+        </td>
+    </tr>
+}
+</table>
+
+    总条数：@ViewBag.TotalNum---当前页数：@ViewBag.CurrentPage---总页数：@ViewBag.TotalPageCount----@cht----@Html.Raw("<b>dddddddddd</b>");
