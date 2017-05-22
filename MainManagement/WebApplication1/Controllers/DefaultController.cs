@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
 {
     public class DefaultController : Controller
     {
-        private IContactService _contactService;
+        private readonly IContactService _contactService;
         public DefaultController(IContactService contactService)
         {
             _contactService = contactService;
@@ -23,22 +23,22 @@ namespace WebApplication1.Controllers
         {
            //List<Contact> modelList= _contactService.GetModels(new Contact() { ID = 0 });
 
-            PageCriteria Criteria = new PageCriteria();
+            PageCriteria criteria = new PageCriteria();
 
-            Criteria.TableName = "Contact";
-            Criteria.Fields = "*";
-            Criteria.PrimaryKey = "ContactID";
-            Criteria.CurrentPage = 1;
-            Criteria.PageSize = 5;
-            Criteria.Sort = "ID desc ";
-            Criteria.Condition = " ID>0";
+            criteria.TableName = "Contact";
+            criteria.Fields = "*";
+            criteria.PrimaryKey = "ContactID";
+            criteria.CurrentPage = 1;
+            criteria.PageSize = 5;
+            criteria.Sort = "ID desc ";
+            criteria.Condition = " ID>0";
 
-            PageDataView<Contact> PageList = _contactService.GetModelsByPage(Criteria);
-            List<Contact> modelList = PageList.Items;
+            PageDataView<Contact> pageList = _contactService.GetModelsByPage(criteria);
+            List<Contact> modelList = pageList.Items;
 
-            ViewBag.TotalNum = PageList.TotalNum;
-            ViewBag.CurrentPage = PageList.CurrentPage;
-            ViewBag.TotalPageCount = PageList.TotalPageCount;
+            ViewBag.TotalNum = pageList.TotalNum;
+            ViewBag.CurrentPage = pageList.CurrentPage;
+            ViewBag.TotalPageCount = pageList.TotalPageCount;
 
             return View(modelList);
         }

@@ -10,9 +10,10 @@ using Ioc;
 
 namespace Common.UnitOfWork
 {
-    public interface IUnitOfWork:IDisposable,IDependency
+    public interface IUnitOfWork:IDependency
     {
-        IDbConnection Connection { get; }
         void ExcuteTransaction(Action action);
+
+        IDbConnection GetConnection();
     }
 }

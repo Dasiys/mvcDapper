@@ -14,19 +14,8 @@ namespace Common.UnitOfWork
 {
     public class UnitOfWork: IUnitOfWork
     {
-        public static string connString = ConfigurationManager.ConnectionStrings["WebSite"].ConnectionString;
+        public static string ConnString = ConfigurationManager.ConnectionStrings["WebSite"].ConnectionString;
 
-
-        public IDbConnection Connection { get; private set; }
-
-        public UnitOfWork()
-        {
-            this.Connection = new SqlConnection(connString);
-            if (this.Connection.State != ConnectionState.Open)
-            {
-                this.Connection.Open();
-            }
-        }
         /// <summary>
         /// 使用事务
         /// </summary>
@@ -49,11 +38,18 @@ namespace Common.UnitOfWork
             }
         }
 
-        public void Dispose()
+        /// <summary>
+        /// 连接数据库
+        /// </summary>
+        /// <returns></returns>
+        public IDbConnection GetConnection()
         {
-            this.Connection?.Close();
-            this.Connection?.Dispose();
-            this.Connection = null;
+            var conn=new SqlConnection(ConnString);
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            return conn;
         }
     }
 }

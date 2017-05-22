@@ -19,24 +19,6 @@ namespace DAL
         {
 
         }
-
-        public int Insert(Contact t)
-        {
-            var i = base.Execute(t, @"insert into Contact(ContactID,Tel,ContactName)values(@ContactID,@Tel,@ContactName)");
-            return i;
-        }
-
-        public int Update(Contact t)
-        {
-            var i = base.Execute(t, @"update Contact set Tel=@Tel,ContactName=@ContactName where ContactID=@ContactID");
-            return i;
-        }
-
-        public int Delete(Contact t)
-        {
-            var i = base.Execute(t, @"delete from Contact  where ContactID=@ContactID");
-            return i;
-        }
         public Contact GetSingleModel(Contact t)
         {
             var args = new DynamicParameters(new { });

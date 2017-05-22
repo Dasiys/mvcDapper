@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Dapper;
 using System.Reflection;
+using Dapper.Contrib.Extensions;
 using Model;
 
 namespace DAL
@@ -31,27 +32,63 @@ namespace DAL
         /// <returns></returns>
         protected int Execute(T t, string strSql)
         {
-            using (var conn=UnitOfWork.Connection)
+            using (var conn=UnitOfWork.GetConnection())
             {
                 var i = conn.Execute(strSql, t);
                 return i;
             }
         }
 
-        public virtual void Update(T obj)
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual int Update(T obj)
         {
-            using (var conn = UnitOfWork.Connection)
+            using (var conn = UnitOfWork.GetConnection())
             {
-                
-
+              return  conn.Update(obj)?1:0;
             }
         }
 
-        public List<T> Query(string strSql, DynamicParameters Para)
+        /// <summary>
+        /// 插入
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual int Insert(T obj)
         {
-            using (var conn = UnitOfWork.Connection)
+            using (var conn = UnitOfWork.GetConnection())
             {
-                return conn.Query<T>(strSql, Para).ToList();
+               return (int)conn.Insert(obj) ;
+            }
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual int Delete(T obj)
+        {
+            using (var conn = UnitOfWork.GetConnection())
+            {
+              return  conn.Delete(obj)?1:0;
+            }
+        }
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public List<T> Query(string strSql, DynamicParameters para)
+        {
+            using (var conn = UnitOfWork.GetConnection())
+            {
+                return conn.Query<T>(strSql, para).ToList();
             }
         }
 
@@ -63,7 +100,7 @@ namespace DAL
         /// <returns></returns>
         public  PageDataView<T> GetPageData<s>(PageCriteria criteria, object param = null)
         {
-            using (var conn = UnitOfWork.Connection)
+            using (var conn = UnitOfWork.GetConnection())
             {
 
                 var p = new DynamicParameters();
