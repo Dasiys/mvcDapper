@@ -28,18 +28,14 @@ namespace BLL
         {
             using (_unitofwork)
             {
-               _unitofwork.BeginTransaction();
-                 t.ContactID = Guid.NewGuid();
-                _Dal.Insert(t);
-                 t.ContactID = Guid.NewGuid();
-                _Dal.Insert(t);
-
-                //开启事务后一定要提交工作单元....
-                _unitofwork.Commit();
-            }
-           
-
-            
+                var a = 5;
+                _unitofwork.UseTransaction(()=>
+                {
+                    t.ContactID = Guid.NewGuid();
+                    a=_Dal.Insert(t);
+                });
+                var b = a;
+            }  
         }
     }
 }

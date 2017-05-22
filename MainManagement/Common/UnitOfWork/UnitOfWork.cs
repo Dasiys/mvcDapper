@@ -8,8 +8,7 @@ using System.Data.SqlClient;
 
 
 using System.Configuration;
-
-
+using System.Transactions;
 
 namespace Common.UnitOfWork
 {
@@ -20,7 +19,7 @@ namespace Common.UnitOfWork
 
         public IDbConnection Connection { get; private set; }
 
-        public IDbTransaction Transaction { get; private set; }
+        //public IDbTransaction Transaction { get; private set; }
 
         public UnitOfWork()
         {
@@ -32,23 +31,41 @@ namespace Common.UnitOfWork
         }
 
 
-        public void BeginTransaction()
-        {
-            this.Transaction = this.Connection.BeginTransaction();
-        }
+        //public void BeginTransaction()
+        //{
+        //    this.Transaction = this.Connection.BeginTransaction();
+        //}
 
-        public void Commit()
-        {
-            try
-            {
-                this.Transaction.Commit();
-            }
-            catch (Exception)
-            {
-                Rollback();
-                throw;
-            }
+        //public void Commit()
+        //{
+        //    try
+        //    {
+        //        this.Transaction.Commit();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Rollback();
+        //        throw;
+        //    }
 
+        //}
+
+        public void UseTransaction(Action action)
+        {
+            using (var scope=new TransactionScope())
+            {
+                try
+                {
+                    action();
+                    scope.Complete();
+                }
+                catch (Exception e)
+                {
+                    
+                    throw;
+                }
+
+            }
         }
 
         public void Dispose()
@@ -57,13 +74,13 @@ namespace Common.UnitOfWork
             this.Connection?.Dispose();
             this.Connection = null;
 
-            this.Transaction?.Dispose();
-            this.Transaction = null;
+            //this.Transaction?.Dispose();
+            //this.Transaction = null;
         }
 
-        public void Rollback()
-        {
-            this.Transaction.Rollback();
-        }
+        //public void Rollback()
+        //{
+        //    this.Transaction.Rollback();
+        //}
     }
 }

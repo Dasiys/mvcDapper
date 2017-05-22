@@ -83,8 +83,9 @@ namespace WebApplication1.Controllers
                 //{
                 model.ContactID = Guid.NewGuid();
 
-                _contactService.Insert(model);
+                //_contactService.Insert(model);
 
+                _contactService.BeginTransactionInsert(model);
                 Response.Redirect("/Default/Index");
                 //}
             }
