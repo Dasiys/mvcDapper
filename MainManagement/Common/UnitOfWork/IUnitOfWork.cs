@@ -12,8 +12,16 @@ namespace Common.UnitOfWork
 {
     public interface IUnitOfWork:IDependency
     {
+        /// <summary>
+        /// 使用事务
+        /// </summary>
+        /// <param name="action"></param>
         void ExcuteTransaction(Action action);
 
+        /// <summary>
+        /// 获取数据库连接
+        /// </summary>
+        /// <returns></returns>
         IDbConnection GetConnection();
     }
 }

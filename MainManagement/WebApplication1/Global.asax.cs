@@ -12,7 +12,7 @@ using Autofac.Integration.Mvc;
 using Common;
 using Ioc;
 
-namespace WebApplication1
+namespace SiteWeb
 {
     public class MvcApplication : System.Web.HttpApplication
     {
