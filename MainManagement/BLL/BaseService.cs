@@ -15,10 +15,10 @@ namespace BLL
     public class BaseService<T>
         where T : class, new()
     {
-        private  readonly IBaseDAL<T> _dal;
+        private  readonly IBaseDal<T> _dal;
         public ILogFactory LogFactory;
 
-        public BaseService(IBaseDAL<T> dal,ILogFactory logFactory)
+        public BaseService(IBaseDal<T> dal,ILogFactory logFactory)
         {
             _dal = dal;
             LogFactory = logFactory;

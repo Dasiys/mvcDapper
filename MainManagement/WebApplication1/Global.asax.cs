@@ -29,7 +29,7 @@ namespace SiteWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AutoMapperHelper.MapObject();
+            //AutoMapperHelper.MapObject();
             var builder = RegisterService();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
         }
@@ -41,14 +41,16 @@ namespace SiteWeb
 
             var baseType = typeof(IDependency);
             var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
-            builder.RegisterControllers(assemblys.ToArray());
-            //builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                    .AsImplementedInterfaces().InstancePerRequest();
+
+            //builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
             //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
             //builder.RegisterType<ContactDal>().As<IContactDAL>().InstancePerLifetimeScope();
             //builder.RegisterType<ContactService>().As<IContactService>().InstancePerLifetimeScope();
+
+            builder.RegisterControllers(assemblys.ToArray());
             return builder;
         }
     }

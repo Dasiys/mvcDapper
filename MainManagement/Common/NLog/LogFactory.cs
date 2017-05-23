@@ -9,7 +9,7 @@ using NLog;
 
 namespace Common.NLog
 {
-    public class LogFactory : ILogFactory,IDependency
+    public class LogFactory : ILogFactory
     {
         private readonly Logger _sqlLogger = LogManager.GetLogger("sql");
         private readonly Logger _httpLogger = LogManager.GetLogger("http");

@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBaseDAL.cs" />
-    <Compile Include="IContactDAL.cs" />
+    <Compile Include="IContactDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

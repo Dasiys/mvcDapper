@@ -50,6 +50,10 @@
       <Project>{627471c0-6347-4326-8c36-806302d0424c}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{9F511540-4288-4EE7-9622-989195E26566}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IBLL\IBLL.csproj">
       <Project>{24752ad1-c561-4bf4-91c9-47b8593c4b65}</Project>
       <Name>IBLL</Name>

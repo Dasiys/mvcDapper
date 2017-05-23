@@ -11,7 +11,7 @@ namespace Common.NLog
     /// <summary>
     /// 日志
     /// </summary>
-    public interface ILogFactory
+    public interface ILogFactory:IDependency
     {
         void Info(LogType logType, string functionName,string message="", object data = null);
 
