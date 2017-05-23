@@ -37,7 +37,7 @@ namespace SiteWeb
         private ContainerBuilder RegisterService()
         {
             var builder = new ContainerBuilder();
-            var assemblys = new Assembly[]
+            var assemblys = new[]
                 {Assembly.Load("WebApplication1"), Assembly.Load("BLL"), Assembly.Load("DAL"), Assembly.Load("Common")};
 
             var baseType = typeof(IDependency);
