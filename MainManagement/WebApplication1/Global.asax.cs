@@ -10,6 +10,7 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Common;
+using Common.NLog;
 using Ioc;
 
 namespace SiteWeb
@@ -35,11 +36,12 @@ namespace SiteWeb
             var baseType = typeof(IDependency);
             var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
 
-            builder.RegisterControllers(assemblys.ToArray());
-
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                    .AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
+            builder.RegisterControllers(assemblys.ToArray());
+
             return builder;
         }
     }

@@ -9,7 +9,7 @@ using Ioc;
 
 namespace IDAL
 {
-    public interface IContactDAL:IBaseDal<Contact>,IDependency
+    public interface IContactDAL:IBaseDAL<Contact>,IDependency
     {
 
     }

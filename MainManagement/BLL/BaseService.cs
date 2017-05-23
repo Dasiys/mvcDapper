@@ -7,6 +7,7 @@ using Common.UnitOfWork;
 using IDAL;
 using Model;
 using System.Transactions;
+using Common.NLog;
 using IBLL;
 
 namespace BLL
@@ -14,11 +15,13 @@ namespace BLL
     public class BaseService<T>
         where T : class, new()
     {
-        public IBaseDal<T> Dal;
+        public  IBaseDAL<T> Dal;
+        public ILogFactory LogFactory;
 
-        public BaseService(IBaseDal<T> dal)
+        public BaseService(IBaseDAL<T> dal,ILogFactory logFactory)
         {
             Dal = dal;
+            LogFactory = logFactory;
         }
 
         /// <summary>
@@ -28,6 +31,7 @@ namespace BLL
         /// <returns></returns>
         public int Insert(T t)
         {
+            LogFactory.Info(LogType.Sql, this.GetType().FullName);
             return Dal.Insert(t);
 
         }

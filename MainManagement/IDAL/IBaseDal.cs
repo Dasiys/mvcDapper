@@ -8,7 +8,7 @@ using Model;
 
 namespace IDAL
 {
-    public interface IBaseDal<T> where T : class, new()
+    public interface IBaseDAL<T> where T : class, new()
     {
         /// <summary>
         /// 添加
