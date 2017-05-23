@@ -12,20 +12,19 @@ using Common.UnitOfWork;
 
 namespace DAL
 {
-    public class ContactDal : BaseDAL<Contact>, IContactDal
+    public class ContactDal : BaseDAL<Contact>, IContactDAL
     {
         public ContactDal(IUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
 
         }
-        public Contact GetSingleModel(Contact t)
+        public  Contact GetSingleModel(Contact t)
         {
-            var args = new DynamicParameters(new { });
-
             string query = "SELECT * FROM Contact WHERE  ContactID=@ContactID";
+            var args = new DynamicParameters(new { });
             args.Add("ContactID", t.ContactID);
-            return base.Query(query, args).SingleOrDefault();
+            return base.GetSingleModel(query,  args);
         }
 
         public List<Contact> GetModels(Contact t)
@@ -34,13 +33,6 @@ namespace DAL
             string query = "SELECT * FROM Contact WHERE id > @id order by id desc ";
             args.Add("ID", t.ID);
             return base.Query(query, args);
-        }
-
-
-        public  PageDataView<Contact> GetModelsByPage(PageCriteria criteria )
-        {
-            var r = base.GetPageData<Contact>(criteria);
-            return r;
         }
 
     }

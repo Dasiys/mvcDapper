@@ -7,10 +7,12 @@ using Common.UnitOfWork;
 using IDAL;
 using Model;
 using System.Transactions;
+using IBLL;
 
 namespace BLL
 {
-    public class BaseService<T> where T : class, new()
+    public class BaseService<T>
+        where T : class, new()
     {
         public IBaseDal<T> Dal;
 
@@ -79,7 +81,7 @@ namespace BLL
         /// <returns></returns>
         public PageDataView<T> GetModelsByPage(PageCriteria t)
         {
-            return Dal.GetModelsByPage(t);
+            return Dal.GetPageData(t);
         }
 
     }

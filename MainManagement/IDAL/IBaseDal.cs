@@ -17,7 +17,6 @@ namespace IDAL
         /// <returns></returns>
         int Insert(T t);
 
-
         /// <summary>
         /// 修改
         /// </summary>
@@ -32,30 +31,21 @@ namespace IDAL
         /// <returns></returns>
         int Delete(T t);
 
-
-
         /// <summary>
         /// 单个实体
         /// </summary>
-        /// <param name="ID"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        T GetSingleModel(T t);
-
-
+        T GetSingleModel(T entity);
 
         /// <summary>
         /// 多个实体例表
         /// </summary>
-        /// <param name="Condition"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
-        List<T> GetModels(T t);
+        List<T> GetModels(T entity);
 
-
-
-
-        PageDataView<T> GetModelsByPage(PageCriteria t);
-
-
+        PageDataView<T> GetPageData(PageCriteria criteria, object param = null);
 
     }
 }

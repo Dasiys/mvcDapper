@@ -10,11 +10,13 @@ using System.Data;
 using Dapper;
 using System.Reflection;
 using Dapper.Contrib.Extensions;
+using IDAL;
 using Model;
 
 namespace DAL
 {
-    public class BaseDAL<T> where T : class, new()
+    public class BaseDAL<T>
+        where T : class, new()
     {
         
 
@@ -93,18 +95,31 @@ namespace DAL
         }
 
         /// <summary>
+        /// 单条记录查询
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public virtual T GetSingleModel(string strSql, DynamicParameters para)
+        {
+            using (var conn = UnitOfWork.GetConnection())
+            {
+                return conn.QueryFirst<T>(strSql, para);
+            }
+        }
+
+        /// <summary>
         /// 公共分页
         /// </summary>
         /// <param name="criteria"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public  PageDataView<T> GetPageData<s>(PageCriteria criteria, object param = null)
+        public virtual  PageDataView<T> GetPageData(PageCriteria criteria, object param = null)
         {
             using (var conn = UnitOfWork.GetConnection())
             {
-
                 var p = new DynamicParameters();
-                string proName = "ProcGetPageData";
+                const string proName = "ProcGetPageData";
                 p.Add("TableName", criteria.TableName);
                 p.Add("PrimaryKey", criteria.PrimaryKey);
                 p.Add("Fields", criteria.Fields);
@@ -113,18 +128,16 @@ namespace DAL
                 p.Add("PageSize", criteria.PageSize);
                 p.Add("Sort", criteria.Sort);
                 p.Add("RecordCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                var pageData = new PageDataView<T>();
-                pageData.Items = conn.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList();
-
-                pageData.TotalNum = p.Get<int>("RecordCount");
+                var pageData = new PageDataView<T>
+                {
+                    Items = conn.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList(),
+                    TotalNum = p.Get<int>("RecordCount")
+                };
                 pageData.TotalPageCount = Convert.ToInt32(Math.Ceiling(pageData.TotalNum * 1.0 / criteria.PageSize));
-
-
                 pageData.CurrentPage = criteria.CurrentPage > pageData.TotalPageCount ? pageData.TotalPageCount : criteria.CurrentPage;
-
-
                 return pageData;
             }
         }
+
     }
 }

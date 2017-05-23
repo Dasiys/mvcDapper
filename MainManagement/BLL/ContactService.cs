@@ -15,7 +15,7 @@ namespace BLL
     public class ContactService:BaseService<Contact>,IContactService
     {
         private readonly  IUnitOfWork _unitOfWork;
-        public ContactService(IContactDal dal,IUnitOfWork unitOfwork):base(dal)
+        public ContactService(IContactDAL dal,IUnitOfWork unitOfwork):base(dal)
         {
             _unitOfWork = unitOfwork;
         }
