@@ -15,8 +15,10 @@ namespace BLL
     public class ContactService:BaseService<Contact>,IContactService
     {
         private readonly  IUnitOfWork _unitOfWork;
+        private readonly IContactDAL _dal;
         public ContactService(IContactDAL dal,IUnitOfWork unitOfwork,ILogFactory logFactory):base(dal,logFactory)
         {
+            _dal = dal;
             _unitOfWork = unitOfwork;
         }
 

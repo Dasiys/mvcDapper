@@ -40,9 +40,9 @@ namespace WebApplication1.Controllers
             return View(modelList);
         }
 
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(int id)
         {
-            _contactService.Delete(new Contact() { ContactID = id});
+            _contactService.Delete(new Contact() { ID = id});
 
             return RedirectToAction("Index", "Default");
         }

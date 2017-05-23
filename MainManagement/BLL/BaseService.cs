@@ -15,12 +15,12 @@ namespace BLL
     public class BaseService<T>
         where T : class, new()
     {
-        public  IBaseDAL<T> Dal;
+        private  readonly IBaseDAL<T> _dal;
         public ILogFactory LogFactory;
 
         public BaseService(IBaseDAL<T> dal,ILogFactory logFactory)
         {
-            Dal = dal;
+            _dal = dal;
             LogFactory = logFactory;
         }
 
@@ -32,7 +32,7 @@ namespace BLL
         public int Insert(T t)
         {
             LogFactory.Info(LogType.Sql,$"{System.Reflection.MethodBase.GetCurrentMethod().Name}");
-            return Dal.Insert(t);
+            return _dal.Insert(t);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BLL
         /// <returns></returns>
         public int Update(T t)
         {
-            return Dal.Update(t);
+            return _dal.Update(t);
 
         }
 
@@ -53,7 +53,7 @@ namespace BLL
         /// <returns></returns>
         public int Delete(T t)
         {
-            return Dal.Delete(t);
+            return _dal.Delete(t);
 
         }
 
@@ -64,7 +64,7 @@ namespace BLL
         /// <returns></returns>
         public T GetSingleModel(T t)
         {
-            return Dal.GetSingleModel(t);
+            return _dal.GetSingleModel(t);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace BLL
         /// <returns></returns>
         public List<T> GetModels(T t)
         {
-            return Dal.GetModels(t);
+            return _dal.GetModels(t);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace BLL
         /// <returns></returns>
         public PageDataView<T> GetModelsByPage(PageCriteria t)
         {
-            return Dal.GetPageData(t);
+            return _dal.GetPageData(t);
         }
 
     }
