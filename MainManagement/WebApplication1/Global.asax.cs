@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-
-
 using Autofac;
 using Autofac.Integration.Mvc;
 using BLL;
@@ -38,17 +37,13 @@ namespace SiteWeb
         private ContainerBuilder RegisterService()
         {
             var builder = new ContainerBuilder();
-            var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
+            var assemblys = new Assembly[]
+                {Assembly.Load("WebApplication1"), Assembly.Load("BLL"), Assembly.Load("DAL"), Assembly.Load("Common")};
 
             var baseType = typeof(IDependency);
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                    .AsImplementedInterfaces().InstancePerLifetimeScope();
-
-            //builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
-            //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
-            //builder.RegisterType<ContactDal>().As<IContactDal>().InstancePerRequest();
-            //builder.RegisterType<ContactService>().As<IContactService>().InstancePerRequest();
 
             builder.RegisterControllers(assemblys.ToArray());
             return builder;
