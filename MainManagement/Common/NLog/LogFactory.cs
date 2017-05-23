@@ -43,7 +43,7 @@ namespace Common.NLog
         public void Write(LogLevel logLevel, LogType logType, string functionName, string message = "", object data = null)
         {
             var logger = logType == LogType.Http ? _httpLogger : _sqlLogger;
-            var info = $"message:{message};data:{JsonConvert.SerializeObject(data)}";
+            var info = $"functionName:{functionName};message:{message};data:{JsonConvert.SerializeObject(data)}";
             logger.Log(logLevel, info);
         }
     }

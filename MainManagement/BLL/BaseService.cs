@@ -31,9 +31,8 @@ namespace BLL
         /// <returns></returns>
         public int Insert(T t)
         {
-            LogFactory.Info(LogType.Sql, this.GetType().FullName);
+            LogFactory.Info(LogType.Sql,$"{System.Reflection.MethodBase.GetCurrentMethod().Name}");
             return Dal.Insert(t);
-
         }
 
         /// <summary>

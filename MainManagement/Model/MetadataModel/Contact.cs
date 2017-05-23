@@ -7,6 +7,7 @@ using Dapper.Contrib.Extensions;
 
 namespace Model
 {
+    [Dapper.Contrib.Extensions.Table("Contact")]
     public class Contact
     {
         public Guid ContactID{ set; get; }
@@ -18,7 +19,6 @@ namespace Model
         [Display(Name = "电话")]
         [Required(ErrorMessage = "必填项")]
         [StringLength(11, ErrorMessage = "长度不能超过11位")]
-        [Computed]
         public string Tel { get; set; }
 
         ///<summary>

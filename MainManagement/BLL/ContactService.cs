@@ -24,8 +24,8 @@ namespace BLL
         {
             _unitOfWork.ExcuteTransaction(() =>
             {
-                t.ContactID=new Guid();
-                Dal.Insert(t);
+                t.ContactID=Guid.NewGuid();
+                Insert(t);
             });
         }
     }
