@@ -42,7 +42,7 @@ namespace SiteWeb
             var baseType = typeof(IDependency);
             var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
             builder.RegisterControllers(assemblys.ToArray());
-            builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
+            //builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
                    .AsImplementedInterfaces().InstancePerRequest();
