@@ -12,7 +12,7 @@ using Common.UnitOfWork;
 
 namespace DAL
 {
-    public class ContactDal : BaseDAL<Contact>, IContactDal
+    public class ContactDal : BaseDal<Contact>, IContactDal
     {
         public ContactDal(IUnitOfWork unitOfWork)
             : base(unitOfWork)

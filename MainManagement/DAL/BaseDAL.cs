@@ -15,14 +15,14 @@ using Model;
 
 namespace DAL
 {
-    public class BaseDAL<T>
+    public class BaseDal<T>
         where T : class, new()
     {
         
 
         protected IUnitOfWork UnitOfWork { get; private set; }
 
-        public BaseDAL(IUnitOfWork unitOfWork)
+        public BaseDal(IUnitOfWork unitOfWork)
         {
             this.UnitOfWork = unitOfWork;
         }
