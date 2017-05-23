@@ -29,7 +29,7 @@ namespace SiteWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //AutoMapperHelper.MapObject();
+            AutoMapperHelper.MapObject();
             var builder = RegisterService();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(builder.Build()));
         }
@@ -38,17 +38,17 @@ namespace SiteWeb
         private ContainerBuilder RegisterService()
         {
             var builder = new ContainerBuilder();
+            var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
 
             var baseType = typeof(IDependency);
-            var assemblys = AppDomain.CurrentDomain.GetAssemblies().ToList();
             builder.RegisterAssemblyTypes(assemblys.ToArray())
                    .Where(t => baseType.IsAssignableFrom(t) && t != baseType)
-                   .AsImplementedInterfaces().InstancePerRequest();
+                   .AsImplementedInterfaces().InstancePerLifetimeScope();
 
             //builder.RegisterType<LogFactory>().As<ILogFactory>().SingleInstance();
-            //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            //builder.RegisterType<ContactDal>().As<IContactDAL>().InstancePerLifetimeScope();
-            //builder.RegisterType<ContactService>().As<IContactService>().InstancePerLifetimeScope();
+            //builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+            //builder.RegisterType<ContactDal>().As<IContactDal>().InstancePerRequest();
+            //builder.RegisterType<ContactService>().As<IContactService>().InstancePerRequest();
 
             builder.RegisterControllers(assemblys.ToArray());
             return builder;
