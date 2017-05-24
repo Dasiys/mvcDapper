@@ -12,7 +12,7 @@ using System.Transactions;
 
 namespace Common.UnitOfWork
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         public static string ConnString = ConfigurationManager.ConnectionStrings["WebSite"].ConnectionString;
 
@@ -32,7 +32,11 @@ namespace Common.UnitOfWork
                 catch (Exception e)
                 {
 
-                    throw;
+                    throw e;
+                }
+                finally
+                {
+                    scope.Dispose();
                 }
 
             }
@@ -44,11 +48,8 @@ namespace Common.UnitOfWork
         /// <returns></returns>
         public IDbConnection GetConnection()
         {
-            var conn=new SqlConnection(ConnString);
-            if (conn.State != ConnectionState.Open)
-            {
-                conn.Open();
-            }
+            var conn = new SqlConnection(ConnString);
+            conn.Open();
             return conn;
         }
     }
