@@ -19,12 +19,10 @@ namespace DAL
         where T : class, new()
     {
         protected IUnitOfWork UnitOfWork { get; }
-        public IDbConnection Conn { get; }
 
         public BaseDal(IUnitOfWork unitOfWork)
         {
             this.UnitOfWork = unitOfWork;
-            Conn = this.UnitOfWork.GetConnection();
         }
 
         /// <summary>
@@ -36,9 +34,9 @@ namespace DAL
         /// <returns></returns>
         protected int Execute(T t, string strSql,IDbTransaction transaction=null)
         {
-            using (Conn)
+            using (var conn=UnitOfWork.GetConnection())
             {
-                return Conn.Execute(strSql, t,transaction);
+                return conn.Execute(strSql, t,transaction);
             }
         }
 
@@ -49,9 +47,9 @@ namespace DAL
         /// <returns></returns>
         public virtual int Update(T obj)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
-              return Conn.Update(obj)?1:0;
+              return conn.Update(obj)?1:0;
             }
         }
 
@@ -62,9 +60,9 @@ namespace DAL
         /// <returns></returns>
         public virtual int Insert(T obj)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
-               return (int)Conn.Insert(obj) ;
+               return (int)conn.Insert(obj) ;
             }
         }
 
@@ -75,9 +73,9 @@ namespace DAL
         /// <returns></returns>
         public virtual int Delete(T obj)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
-              return Conn.Delete(obj)?1:0;
+              return conn.Delete(obj)?1:0;
             }
         }
 
@@ -89,9 +87,9 @@ namespace DAL
         /// <returns></returns>
         public List<T> Query(string strSql, DynamicParameters para)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
-                return Conn.Query<T>(strSql, para).ToList();
+                return conn.Query<T>(strSql, para).ToList();
             }
         }
 
@@ -103,9 +101,9 @@ namespace DAL
         /// <returns></returns>
         public virtual T GetSingleModel(string strSql, DynamicParameters para)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
-                return Conn.QueryFirst<T>(strSql, para);
+                return conn.QueryFirst<T>(strSql, para);
             }
         }
 
@@ -117,7 +115,7 @@ namespace DAL
         /// <returns></returns>
         public virtual  PageDataView<T> GetPageData(PageCriteria criteria, object param = null)
         {
-            using (Conn)
+            using (var conn = UnitOfWork.GetConnection())
             {
                 var p = new DynamicParameters();
                 const string proName = "ProcGetPageData";
@@ -131,7 +129,7 @@ namespace DAL
                 p.Add("RecordCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var pageData = new PageDataView<T>
                 {
-                    Items = Conn.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList(),
+                    Items = conn.Query<T>(proName, p, commandType: CommandType.StoredProcedure).ToList(),
                     TotalNum = p.Get<int>("RecordCount")
                 };
                 pageData.TotalPageCount = Convert.ToInt32(Math.Ceiling(pageData.TotalNum * 1.0 / criteria.PageSize));

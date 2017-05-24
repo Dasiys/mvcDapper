@@ -23,5 +23,10 @@ namespace Common.UnitOfWork
         /// </summary>
         /// <returns></returns>
         IDbConnection GetConnection();
+
+        IDbTransaction BeginTransaction(IDbConnection conn);
+
+        void EndTransactionRollback(IDbTransaction transaction);
+        void EndTransactionCommit(IDbTransaction transaction);
     }
 }

@@ -17,7 +17,7 @@ namespace Common.UnitOfWork
         public static string ConnString = ConfigurationManager.ConnectionStrings["WebSite"].ConnectionString;
 
         /// <summary>
-        /// 使用事务
+        /// 使用分布式事务
         /// </summary>
         /// <param name="action"></param>
         public void ExcuteTransaction(Action action)
@@ -40,6 +40,34 @@ namespace Common.UnitOfWork
                 }
 
             }
+        }
+
+        /// <summary>
+        /// 开始事务
+        /// </summary>
+        /// <param name="conn">数据库连接</param>
+        /// <returns>当前事务</returns>
+        public  IDbTransaction BeginTransaction(IDbConnection conn)
+        {
+            return conn.BeginTransaction();
+        }
+
+        /// <summary>
+        /// 结束事务，回滚操作
+        /// </summary>
+        /// <param name="transaction">要结束的事务</param>
+        public void EndTransactionRollback(IDbTransaction transaction)
+        {
+            transaction.Rollback();
+        }
+
+        /// <summary>
+        /// 结束事务，确认操作
+        /// </summary>
+        /// <param name="transaction">要结束的事务</param>
+        public void EndTransactionCommit(IDbTransaction transaction)
+        {
+            transaction.Commit();
         }
 
         /// <summary>

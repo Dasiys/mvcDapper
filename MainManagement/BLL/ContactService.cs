@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace BLL
     {
         private readonly  IUnitOfWork _unitOfWork;
         private readonly IContactDal _dal;
+
         public ContactService(IContactDal dal,IUnitOfWork unitOfwork,ILogFactory logFactory):base(dal,logFactory)
         {
             _dal = dal;
@@ -24,11 +26,28 @@ namespace BLL
 
         public void BeginTransactionInsert(Contact t)
         {
-            _unitOfWork.ExcuteTransaction(() =>
+            using (var conn=_unitOfWork.GetConnection())
             {
-                t.ContactID=Guid.NewGuid();
-                Insert(t);
-            });
+                var transaction = _unitOfWork.BeginTransaction(conn);
+                try
+                {
+                    t.ContactID = Guid.NewGuid();
+                    _dal.Insert(t);
+                    t.ContactID = Guid.NewGuid();
+                    _dal.Insert(t);
+                    _unitOfWork.EndTransactionCommit(transaction);
+                }
+                catch (Exception e)
+                {
+                    LogFactory.Error(LogType.Sql,System.Reflection.MethodBase.GetCurrentMethod().Name,e.Message);
+                    _unitOfWork.EndTransactionRollback(transaction);
+                    throw;
+                }
+                finally
+                {
+                    transaction.Dispose();
+                }
+            }
         }
     }
 }
