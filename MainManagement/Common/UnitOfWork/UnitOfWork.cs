@@ -17,7 +17,7 @@ namespace Common.UnitOfWork
         public static string ConnString = ConfigurationManager.ConnectionStrings["WebSite"].ConnectionString;
 
         /// <summary>
-        /// 使用分布式事务
+        /// 使用分布式事务(嵌套事务的时候可以用TransactionScope)
         /// </summary>
         /// <param name="action"></param>
         public void ExcuteTransaction(Action action)
