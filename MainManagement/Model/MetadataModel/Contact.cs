@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Model.MetadataModel;
 
 namespace Model
 {
     [Dapper.Contrib.Extensions.Table("Contact")]
-    public class Contact
+    public class Contact:IBaseEntity
     {
         public Guid ContactID{ set; get; }
         public int ID { get; set; }

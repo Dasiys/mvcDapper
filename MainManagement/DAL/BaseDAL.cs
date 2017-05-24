@@ -12,11 +12,12 @@ using System.Reflection;
 using Dapper.Contrib.Extensions;
 using IDAL;
 using Model;
+using Model.MetadataModel;
 
 namespace DAL
 {
     public class BaseDal<T>
-        where T : class, new()
+        where T : class,IBaseEntity, new()
     {
         protected IUnitOfWork UnitOfWork { get; }
 
@@ -30,13 +31,12 @@ namespace DAL
         /// </summary>
         /// <param name="t"></param>
         /// <param name="strSql"></param>
-        /// <param name="transaction"></param>
         /// <returns></returns>
-        protected int Execute(T t, string strSql,IDbTransaction transaction=null)
+        protected int Execute(T t, string strSql)
         {
             using (var conn=UnitOfWork.GetConnection())
             {
-                return conn.Execute(strSql, t,transaction);
+                return conn.Execute(strSql, t);
             }
         }
 
@@ -62,7 +62,8 @@ namespace DAL
         {
             using (var conn = UnitOfWork.GetConnection())
             {
-               return (int)conn.Insert(obj) ;
+                obj.ID = (int) conn.Insert(obj);
+                return obj.ID;
             }
         }
 
