@@ -65,18 +65,11 @@ namespace WebApplication1.Controllers
         public ActionResult Create(Contact model)
         {
 
-            //ModelState.AddModelError("", "1111");
             if (ModelState.IsValid)
             {
-                //if (!string.IsNullOrEmpty(model.Tel))
-                //{
                 model.ContactID = Guid.NewGuid();
-
-                //_contactService.Insert(model);
-
                 _contactService.BeginTransactionInsert(model);
                 return RedirectToAction("Index");
-                //}
             }
             ViewBag.error = "错误提示";
             return View();
