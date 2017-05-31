@@ -3,19 +3,25 @@ using Model.MetadataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI;
+using Common.NLog;
+using Model;
 using Model.ViewModel;
+using Newtonsoft.Json;
 
 namespace BLL
 {
     public class BaseService<T> where T:class ,IEntityBase,new ()
     {
         protected readonly IBaseDal<T> Basedal;
-
-        public BaseService(IBaseDal<T> baseDal)
+        public ILogFactory _LogFactory;
+        public BaseService(IBaseDal<T> baseDal,ILogFactory logFactory)
         {
             Basedal = baseDal;
+            _LogFactory = logFactory;
         }
 
         public virtual int Excute(string sql, object param)
@@ -25,6 +31,7 @@ namespace BLL
 
         public virtual int Insert(T entity)
         {
+            Validate(entity);
             return Basedal.Insert(entity);
         }
 
@@ -53,6 +60,17 @@ namespace BLL
             where TM : class, IEntityBase, new()
         {
             return Basedal.GetPageData<TM>(criteria, param);
+        }
+
+        public void ExceptionThrow(string errorName, string errormsg)
+        {
+
+            throw  new Exception("{"+$"\"ErrorName\":\"{errorName}\",\"ErrorMsg\":\"{errormsg}\"" +"}");
+        }
+
+        public virtual void Validate(T entity)
+        {
+            
         }
     }
 }

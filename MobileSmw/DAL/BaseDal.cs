@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using IDAL;
 using Model.ViewModel;
 
 namespace DAL
@@ -39,7 +40,7 @@ namespace DAL
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual Boolean Detete(T entity)
+        public virtual bool Delete(T entity)
         {
             using (var conn=UnitOfWork.GetDbConnection())
             {
@@ -83,7 +84,7 @@ namespace DAL
         /// <param name="param"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public TM GetSingleModel<TM>(string tableName, string condition,object param, string fields = "*") where TM : class, IEntityBase, new()
+        public TM GetSingleModel<TM>(string tableName, string condition,object param, string fields = "*")
         {
             using (var conn = UnitOfWork.GetDbConnection())
             {
@@ -103,7 +104,7 @@ namespace DAL
         /// <param name="fields"></param>
         /// <param name="orderBy"></param>
         /// <returns></returns>
-        public List<TM> GetModels<TM>(string tableName, string condition, object param, string fields = "*", string orderBy = "") where TM : class, new()
+        public List<TM> GetModels<TM>(string tableName, string condition, object param, string fields = "*", string orderBy = "")
         {
             using (var conn = UnitOfWork.GetDbConnection())
             {
@@ -143,6 +144,20 @@ namespace DAL
                 pageData.TotalPageCount = Convert.ToInt32(Math.Ceiling(pageData.RecordCount * 1.0 / criteria.PageSize));
                 pageData.CurrentPage = criteria.CurrentPage > pageData.TotalPageCount ? pageData.TotalPageCount : criteria.CurrentPage;
                 return pageData;
+            }
+        }
+
+        /// <summary>
+        /// 执行普通的存储过程
+        /// </summary>
+        /// <param name="procName"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public int ExcuteProc(string procName, DynamicParameters param)
+        {
+            using (var conn=UnitOfWork.GetDbConnection())
+            {
+                return conn.Execute(procName, param, null, null, CommandType.StoredProcedure);
             }
         }
     }

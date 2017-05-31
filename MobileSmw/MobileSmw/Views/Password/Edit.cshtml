@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm())
+{
+    <label for="oldPassword">旧密码：</label>
+    <input type="password" name="oldPassword" id="oldPassword"/>
+    <label for="newPassword">新密码：</label>
+    <input type="password" name="newPassword" id="newPassword"/>
+    <button type="submit">提交</button>
+}

@@ -35,8 +35,8 @@ namespace MobileSmw
             var assemblies = new[]
             {
                 Assembly.Load("Common"),
-                Assembly.Load("BLL"),
-                Assembly.Load("DAL")
+                Assembly.Load("DAL"),
+                Assembly.Load("BLL")
             };
             var baseType = typeof(IDependency);
             builder.RegisterAssemblyTypes(assemblies)

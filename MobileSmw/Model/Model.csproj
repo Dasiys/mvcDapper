@@ -30,8 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.0\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.50.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.50.0\lib\net45\Dapper.Contrib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMemberInfo.cs" />
+    <Compile Include="Dtos\CreditApplyModifyModel.cs" />
+    <Compile Include="Dtos\UserInfoModifyModel.cs" />
+    <Compile Include="ErrorModel.cs" />
+    <Compile Include="LoginInfo.cs" />
+    <Compile Include="MetadataModel\AllocationType.cs" />
     <Compile Include="MetadataModel\IEntityBase.cs" />
+    <Compile Include="MetadataModel\RegType.cs" />
+    <Compile Include="MetadataModel\TB_UserInfo.cs" />
+    <Compile Include="MetadataModel\TB_XiMuCreditApply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultModel.cs" />
     <Compile Include="ViewModel\PageCriteria.cs" />
     <Compile Include="ViewModel\PageDataView.cs" />
+    <Compile Include="YunPianErrorModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -644,7 +644,7 @@
       <xs:enumeration value="Magenta" />
       <xs:enumeration value="Yellow" />
       <xs:enumeration value="White" />
-      <xs:enumeration value="NoChange" />
+      <xs:enumeration value="NoEntityFilter" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="NLog.Targets.ConsoleRowHighlightingRule">

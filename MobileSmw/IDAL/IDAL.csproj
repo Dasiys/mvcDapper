@@ -44,9 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBaseDal.cs" />
+    <Compile Include="ICreditApplyDal.cs" />
+    <Compile Include="IUserDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IOC\IOC.csproj">
+      <Project>{691D0575-CED7-4E18-8BE3-8079CF47FB78}</Project>
+      <Name>IOC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{2AD66CB1-436A-4636-8257-92F1AFDBC0C0}</Project>
       <Name>Model</Name>
