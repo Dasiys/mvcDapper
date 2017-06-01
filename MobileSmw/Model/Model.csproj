@@ -52,7 +52,7 @@
     <Compile Include="Dtos\CreditApplyModifyModel.cs" />
     <Compile Include="Dtos\OrderDetailModel.cs" />
     <Compile Include="Dtos\OrderListModel.cs" />
-    <Compile Include="Dtos\UserInfoDetail.cs" />
+    <Compile Include="Dtos\UserInfoModifyModel.cs" />
     <Compile Include="Dtos\UserRegisterModel.cs" />
     <Compile Include="ErrorModel.cs" />
     <Compile Include="LoginInfo.cs" />

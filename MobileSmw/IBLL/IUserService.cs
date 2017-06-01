@@ -84,7 +84,13 @@ namespace IBLL
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        UserInfoDetail GetUserInfoDetail(int uid);
+        UserInfoModifyModel GetUserInfoDetail(int uid);
+
+        /// <summary>
+        /// 更改用户信息
+        /// </summary>
+        /// <param name="entity"></param>
+        void UpdateUserInfo(UserInfoModifyModel entity);
 
         HttpContext Context { set; get; }
     }

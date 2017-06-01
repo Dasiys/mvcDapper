@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Model.Dtos
 {
-    public class UserInfoDetail
+    public class UserInfoModifyModel
     {
+        /// <summary>
+        /// 设置或获取用户Id
+        /// </summary>
+        public int Uid { set; get; }
         /// <summary>
         /// 设置或获取公司名称
         /// </summary>
@@ -40,7 +44,5 @@ namespace Model.Dtos
         /// 设置或获取头像
         /// </summary>
         public string Photo { get; set; }
-
-
     }
 }

@@ -303,18 +303,30 @@ namespace BLL
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public UserInfoDetail GetUserInfoDetail(int uid)
+        public UserInfoModifyModel GetUserInfoDetail(int uid)
         {
             DynamicParameters param=new DynamicParameters();
             param.Add("Uid",uid);
             var condition = "Uid=@uid";
-            var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo";
-            return _userDal.GetSingleModel<UserInfoDetail>(TableName, condition, param, field);
+            var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo,Uid";
+            var result = _userDal.GetSingleModel<UserInfoModifyModel>(TableName, condition, param, field);
+            if(result==null)
+                ExceptionThrow("Error","获取用户信息失败，请稍后再试");
+            return result;
         }
 
-        public void UpdateUserInfo()
+        /// <summary>
+        /// 更改用户信息
+        /// </summary>
+        /// <param name="entity"></param>
+        public void UpdateUserInfo(UserInfoModifyModel entity)
         {
-            
+            var sql =
+                $"Update {TableName} Set CompanyName=@CompanyName,Mobile=@Mobile,Contact=@Contact,Email=@Email,QQ=@QQ,Tel=@Tel,Addr=@Addr,Photo=@Photo " +
+                "where Uid=@Uid";
+            var result=_userDal.Excute(sql, entity);
+            if(result<1)
+                ExceptionThrow("Error","修改失败，请重试");
         }
 
         public HttpContext Context { get; set; }
