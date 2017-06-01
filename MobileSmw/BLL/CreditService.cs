@@ -14,6 +14,9 @@ using Common;
 
 namespace BLL
 {
+    /// <summary>
+    /// 信用购
+    /// </summary>
     public class CreditService:BaseService<TB_XiMuCreditApply>, ICreditService
     {
         private readonly ICreditApplyDal _creditApplyDal;

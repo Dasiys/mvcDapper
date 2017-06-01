@@ -9,20 +9,19 @@ using Model.MetadataModel;
 
 namespace IBLL
 {
-    public interface IOrderService:IBaseService<TB_Order>, IDependency
+    public interface INewsService:IBaseService<TB_News>, IDependency
     {
         /// <summary>
-        /// 设置或获取订单列表
+        /// 获取新闻列表
         /// </summary>
-        /// <param name="status"></param>
         /// <returns></returns>
-        IList<OrderListModel> GetOrders(OrderStatus status);
+        IList<NewsListModel> GetNewsList(CateType cateId);
 
         /// <summary>
-        /// 设置或获取订单详情
+        /// 获取新闻详情
         /// </summary>
-        /// <param name="orderId"></param>
+        /// <param name="newsId"></param>
         /// <returns></returns>
-        OrderDetailModel GetOrderDetail(string orderId);
+        NewsDetailModel GetNewsDetail(int newsId);
     }
 }

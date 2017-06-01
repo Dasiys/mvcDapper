@@ -49,7 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CMemberInfo.cs" />
+    <Compile Include="Dtos\CateType.cs" />
     <Compile Include="Dtos\CreditApplyModifyModel.cs" />
+    <Compile Include="Dtos\NewsDetailModel.cs" />
+    <Compile Include="Dtos\NewsListModel.cs" />
     <Compile Include="Dtos\OrderDetailModel.cs" />
     <Compile Include="Dtos\OrderListModel.cs" />
     <Compile Include="Dtos\UserInfoModifyModel.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="MetadataModel\OrderStatus.cs" />
     <Compile Include="MetadataModel\OrderType.cs" />
     <Compile Include="MetadataModel\RegType.cs" />
+    <Compile Include="MetadataModel\TB_News.cs" />
     <Compile Include="MetadataModel\TB_Order.cs" />
     <Compile Include="MetadataModel\TB_UserInfo.cs" />
     <Compile Include="MetadataModel\TB_XiMuCreditApply.cs" />

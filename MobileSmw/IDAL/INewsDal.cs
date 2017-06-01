@@ -8,7 +8,7 @@ using Model.MetadataModel;
 
 namespace IDAL
 {
-    public interface IOrderDal:IBaseDal<TB_Order>,IDependency
+    public interface INewsDal:IBaseDal<TB_News>, IDependency
     {
     }
 }

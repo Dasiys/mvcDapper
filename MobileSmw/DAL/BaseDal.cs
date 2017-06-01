@@ -110,7 +110,7 @@ namespace DAL
             {
                 condition = string.IsNullOrEmpty(condition) ? "" : $"where {condition}";
                 var sql = $"select {fields} from {tableName} {condition} {orderBy}";
-                return conn.Query<TM>(sql, param)?.ToList();
+                return conn.Query<TM>(sql, param)?.ToList()??new List<TM>();
             }
         }
        
