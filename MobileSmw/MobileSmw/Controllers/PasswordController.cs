@@ -17,7 +17,7 @@ namespace MobileSmw.Controllers
             _userService.Context=System.Web.HttpContext.Current;
         }
 
-        public ActionResult Edit()
+        public ActionResult Update()
         {
             return View();
         }
@@ -29,7 +29,7 @@ namespace MobileSmw.Controllers
         /// <param name="newPassword"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(string oldPassword,string newPassword)
+        public ActionResult Update(string oldPassword,string newPassword)
         {
             _userService.UpdatePassword(newPassword,oldPassword,CMemberInfo.MemberId);
             return RedirectToAction("Index","Home");

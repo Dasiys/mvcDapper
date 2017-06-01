@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="IBaseDal.cs" />
     <Compile Include="ICreditApplyDal.cs" />
+    <Compile Include="IOrderDal.cs" />
     <Compile Include="IUserDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
