@@ -33,7 +33,7 @@ namespace IBLL
         /// </summary>
         /// <param name="model"></param>
         /// <param name="context"></param>
-        void RegisterUser(UserInfoModifyModel model);
+        void RegisterUser(UserRegisterModel model);
 
         /// <summary>
         /// 保存用户信息
@@ -41,6 +41,12 @@ namespace IBLL
         /// <param name="memberInfo"></param>
         void SaveUserInfo(CMemberInfo memberInfo);
 
+        /// <summary>
+        /// 修改登录信息
+        /// </summary>
+        /// <param name="mobile"></param>
+        /// <param name="password"></param>
+        /// <param name="autoLogin"></param>
         void OperateLoginInfo(string mobile, string password, bool autoLogin);
 
         /// <summary>
@@ -72,6 +78,13 @@ namespace IBLL
         /// <param name="oldPassword"></param>
         /// <param name="id"></param>
         void UpdatePassword(string newPassword,string oldPassword, int id);
+
+        /// <summary>
+        /// 获取个人信息详情
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        UserInfoDetail GetUserInfoDetail(int uid);
 
         HttpContext Context { set; get; }
     }

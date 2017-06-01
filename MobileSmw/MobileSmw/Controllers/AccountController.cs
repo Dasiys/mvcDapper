@@ -88,7 +88,7 @@ namespace MobileSmw.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Register(UserInfoModifyModel model)
+        public ActionResult Register(UserRegisterModel model)
         {
             if (ModelState.IsValid)
             {

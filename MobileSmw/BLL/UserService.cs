@@ -67,8 +67,7 @@ namespace BLL
         /// 注册用户
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="context"></param>
-        public void RegisterUser(UserInfoModifyModel model)
+        public void RegisterUser(UserRegisterModel model)
         {
             Check(model);
             DynamicParameters param = new DynamicParameters();
@@ -90,10 +89,9 @@ namespace BLL
         /// 检查注册数据
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="context"></param>
-        private void Check(UserInfoModifyModel model)
+        private void Check(UserRegisterModel model)
         {
-            Function.EntityFilter<UserInfoModifyModel>(model);
+            Function.EntityFilter<UserRegisterModel>(model);
             if (!IsMobile(model.Mobile))
                 ExceptionThrow("MobileError", "请输入正确格式的手机号码");
 
@@ -117,7 +115,6 @@ namespace BLL
         /// 登录后保存用户信息
         /// </summary>
         /// <param name="memberInfo"></param>
-        /// <param name="context"></param>
         public void SaveUserInfo(CMemberInfo memberInfo)
         {
             var responseCookies = Context.Response.Cookies;
@@ -155,7 +152,6 @@ namespace BLL
         /// <summary>
         /// 发送手机验证码
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="vertifyCode"></param>
         /// <param name="mobile"></param>
         /// <returns></returns>
@@ -226,7 +222,6 @@ namespace BLL
         /// <summary>
         /// 登出
         /// </summary>
-        /// <param name="context"></param>
         public void Logout()
         {
             if (Context.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
@@ -240,7 +235,6 @@ namespace BLL
         /// <param name="mobile"></param>
         /// <param name="password"></param>
         /// <param name="autoLogin"></param>
-        /// <param name="context"></param>
         public void OperateLoginInfo(string mobile, string password, bool autoLogin)
         {
             var requestCookies = Context.Request.Cookies;
@@ -263,7 +257,6 @@ namespace BLL
         /// <summary>
         /// 获取登录信息
         /// </summary>
-        /// <param name="context"></param>
         /// <returns></returns>
         public LoginInfo GetLoginInfo()
         {
@@ -303,6 +296,25 @@ namespace BLL
             if (result < 1)
                 ExceptionThrow("Error", "修改失败，请重试");
             OperateLoginInfo("","",false);
+        }
+
+        /// <summary>
+        /// 获取个人信息详情
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public UserInfoDetail GetUserInfoDetail(int uid)
+        {
+            DynamicParameters param=new DynamicParameters();
+            param.Add("Uid",uid);
+            var condition = "Uid=@uid";
+            var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo";
+            return _userDal.GetSingleModel<UserInfoDetail>(TableName, condition, param, field);
+        }
+
+        public void UpdateUserInfo()
+        {
+            
         }
 
         public HttpContext Context { get; set; }

@@ -12,7 +12,7 @@ namespace Model.Dtos
     /// <summary>
     /// 用户信息更改Model
     /// </summary>
-    public class UserInfoModifyModel
+    public class UserRegisterModel
     {
         /// <summary>
         /// 设置或获取Id
