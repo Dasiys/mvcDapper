@@ -208,15 +208,18 @@ namespace BLL
         /// <returns></returns>
         private async Task<string> HttpPostAsync(Dictionary<string, string> parameters)
         {
+            var url = ConfigurationManager.AppSettings["BaseUri"];
             var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.None };
-            using (var httpClient = new HttpClient(handler))
+
+            var httpClient = new HttpClient(handler) { BaseAddress = new Uri(url) };
+
+            httpClient.SendAsync(new HttpRequestMessage
             {
-                var url = ConfigurationManager.AppSettings["BaseUri"];
-                httpClient.BaseAddress = new Uri(url);
-                var content = new FormUrlEncodedContent(parameters);
-                var response = await httpClient.PostAsync(url, content);
-                return await response.Content.ReadAsStringAsync();
-            }
+                Method = new HttpMethod("HEAD"),
+                RequestUri = new Uri(url + "/")
+            }).Result.EnsureSuccessStatusCode();
+            var response = await httpClient.PostAsync(url, new FormUrlEncodedContent(parameters));
+            return await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
@@ -295,7 +298,7 @@ namespace BLL
             result = Excute(sql, uParam);
             if (result < 1)
                 ExceptionThrow("Error", "修改失败，请重试");
-            OperateLoginInfo("","",false);
+            OperateLoginInfo("", "", false);
         }
 
         /// <summary>
@@ -305,13 +308,13 @@ namespace BLL
         /// <returns></returns>
         public UserInfoModifyModel GetUserInfoDetail(int uid)
         {
-            DynamicParameters param=new DynamicParameters();
-            param.Add("Uid",uid);
+            DynamicParameters param = new DynamicParameters();
+            param.Add("Uid", uid);
             var condition = "Uid=@uid";
             var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo,Uid";
             var result = _userDal.GetSingleModel<UserInfoModifyModel>(TableName, condition, param, field);
-            if(result==null)
-                ExceptionThrow("Error","获取用户信息失败，请稍后再试");
+            if (result == null)
+                ExceptionThrow("Error", "获取用户信息失败，请稍后再试");
             return result;
         }
 
@@ -324,9 +327,9 @@ namespace BLL
             var sql =
                 $"Update {TableName} Set CompanyName=@CompanyName,Mobile=@Mobile,Contact=@Contact,Email=@Email,QQ=@QQ,Tel=@Tel,Addr=@Addr,Photo=@Photo " +
                 "where Uid=@Uid";
-            var result=_userDal.Excute(sql, entity);
-            if(result<1)
-                ExceptionThrow("Error","修改失败，请重试");
+            var result = _userDal.Excute(sql, entity);
+            if (result < 1)
+                ExceptionThrow("Error", "修改失败，请重试");
         }
 
         public HttpContext Context { get; set; }

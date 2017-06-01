@@ -34,6 +34,7 @@ namespace MobileSmw.Controllers
                 filterContext.Result = LoginResult(returnUrl);
                 return;
             }
+
             CMemberInfo = (CMemberInfo) session;
         }
 
