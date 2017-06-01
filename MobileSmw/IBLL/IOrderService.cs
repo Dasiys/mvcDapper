@@ -15,8 +15,9 @@ namespace IBLL
         /// 设置或获取订单列表
         /// </summary>
         /// <param name="status"></param>
+        /// <param name="buyUid"></param>
         /// <returns></returns>
-        IList<OrderListModel> GetOrders(OrderStatus status);
+        IList<OrderListModel> GetOrders(OrderStatus status,int buyUid);
 
         /// <summary>
         /// 设置或获取订单详情
@@ -24,5 +25,12 @@ namespace IBLL
         /// <param name="orderId"></param>
         /// <returns></returns>
         OrderDetailModel GetOrderDetail(string orderId);
+
+        /// <summary>
+        /// 获得订单数量
+        /// </summary>
+        /// <param name="buyUid"></param>
+        /// <returns></returns>
+        OrderQuantityModel GetOrderQuantity(int buyUid);
     }
 }

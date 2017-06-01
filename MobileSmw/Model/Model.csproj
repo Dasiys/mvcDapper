@@ -55,6 +55,7 @@
     <Compile Include="Dtos\NewsListModel.cs" />
     <Compile Include="Dtos\OrderDetailModel.cs" />
     <Compile Include="Dtos\OrderListModel.cs" />
+    <Compile Include="Dtos\OrderQuantityModel.cs" />
     <Compile Include="Dtos\UserInfoModifyModel.cs" />
     <Compile Include="Dtos\UserRegisterModel.cs" />
     <Compile Include="ErrorModel.cs" />

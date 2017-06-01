@@ -27,14 +27,16 @@ namespace BLL
         /// 设置或获取订单列表
         /// </summary>
         /// <param name="status"></param>
+        /// <param name="buyUid"></param>
         /// <returns></returns>
-        public IList<OrderListModel> GetOrders(OrderStatus status)
+        public IList<OrderListModel> GetOrders(OrderStatus status,int buyUid)
         {
             var param=new DynamicParameters();
-            var condition = "";
+            var condition = "BuyUid=@BuyUid";
+            param.Add("BuyUid",buyUid);
             if (status != OrderStatus.All)
             {
-                condition = "Status=@Status";
+                condition = " and Status=@Status";
                 param.Add("Status", status);
             }
             var fields =
@@ -55,6 +57,35 @@ namespace BLL
             var param=new DynamicParameters();
             param.Add("orderId",orderId);
             return _orderDal.GetSingleModel<OrderDetailModel>(tableName, condition, param, field);
+        }
+
+        /// <summary>
+        /// 获得订单数量
+        /// </summary>
+        /// <param name="buyUid"></param>
+        /// <returns></returns>
+        public OrderQuantityModel GetOrderQuantity(int buyUid)
+        {
+            var tableName = "TB_order";
+            var sql = $"select count(1) as NotPayQuantity  from {tableName} where BuyUid=@BuyUid and Status=1 " +
+                      $"select count(1) as HasPayedQuantity from {tableName} where BuyUid=@BuyUid and Status in (2,3,4)";
+            var param = new DynamicParameters();
+            param.Add("BuyUid", buyUid);
+            Func<SqlMapper.GridReader, OrderQuantityModel> func = multi =>
+            {
+                if (!multi.IsConsumed)
+                {
+                    var result1 = multi.Read();
+                    var result2 = multi.Read();
+                    return new OrderQuantityModel
+                    {
+                        NotPayQuantity = Convert.ToInt32(result1.FirstOrDefault()?.NotPayQuantity),
+                        HasPayedQuantity = Convert.ToInt32(result2.FirstOrDefault()?.HasPayedQuantity)
+                    };
+                }
+                return new OrderQuantityModel();
+            };
+            return _orderDal.MultipleQuery(sql, param, func);
         }
     }
 }

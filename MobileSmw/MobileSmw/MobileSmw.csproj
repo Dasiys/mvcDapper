@@ -211,6 +211,7 @@
     <Content Include="Views\User\UpdateUserInfo.cshtml" />
     <Content Include="Views\News\List.cshtml" />
     <Content Include="Views\News\GetNewsDetail.cshtml" />
+    <Content Include="Views\Order\GetOrderQuantity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -218,7 +219,6 @@
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Credit\" />
     <Folder Include="Views\Error\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
