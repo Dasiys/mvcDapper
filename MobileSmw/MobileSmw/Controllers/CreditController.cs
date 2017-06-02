@@ -17,8 +17,7 @@ namespace MobileSmw.Controllers
             _creditService = creditService;
         }
 
-        // GET: Credit
-        public ActionResult Index()
+        public ActionResult CreditApply()
         {
             return View();
         }

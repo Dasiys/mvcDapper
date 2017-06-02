@@ -212,12 +212,12 @@
     <Content Include="Views\News\List.cshtml" />
     <Content Include="Views\News\GetNewsDetail.cshtml" />
     <Content Include="Views\Order\GetOrderQuantity.cshtml" />
+    <Content Include="Views\Credit\CreditApply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Credit\" />
     <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
