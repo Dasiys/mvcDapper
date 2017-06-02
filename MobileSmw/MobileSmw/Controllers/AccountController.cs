@@ -59,12 +59,12 @@ namespace MobileSmw.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string GetLoginInfo()
+        public JsonResult GetLoginInfo()
         {
-            return ReturnResultHelper.ReturnResult( new ResultModel()
+            return Json( new ResultModel()
             {
                 Data = _userService.GetLoginInfo()
-            });
+            },JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
@@ -122,10 +122,10 @@ namespace MobileSmw.Controllers
         /// <param name="vertifyCode"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<string> SendMobileMsg(string mobile, string vertifyCode)
+        public async Task<JsonResult> SendMobileMsg(string mobile, string vertifyCode)
         {
             await _userService.SendMobileMsg(vertifyCode, mobile);
-            return ReturnResultHelper.ReturnResult(new ResultModel());
+            return Json(new ResultModel(),JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

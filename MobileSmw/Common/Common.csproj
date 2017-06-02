@@ -58,7 +58,6 @@
     <Compile Include="NLog\ILogFactory.cs" />
     <Compile Include="NLog\LogFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReturnResultHelper.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="VerifyCodeTools.cs" />

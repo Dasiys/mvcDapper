@@ -37,10 +37,8 @@ namespace MobileSmw.Controllers
             {
                 var memnerInfo = GetCmemberInfo();
                 ViewBag.OrderQuantity = _orderService.GetOrderQuantity(memnerInfo.MemberId);
-                return View();
-
             }
-            return new EmptyResult();
+            return View();
         }
 
         public ActionResult About()
