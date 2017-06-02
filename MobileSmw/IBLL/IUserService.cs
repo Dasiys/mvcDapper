@@ -32,7 +32,6 @@ namespace IBLL
         /// 注册用户
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="context"></param>
         void RegisterUser(UserRegisterModel model);
 
         /// <summary>

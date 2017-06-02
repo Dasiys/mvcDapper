@@ -30,7 +30,7 @@
     <hr />
         @Html.LabelFor(m => m.VertifyCode, "验证码")
         @Html.EditorFor(m => m.VertifyCode)
-        <img src="@Url.Action("GetValidatorGraphics", "Account", new {date = DateTime.Now})" />
+        <img id="validateImg" src="@Url.Action("GetValidatorGraphics", "Account", new {date = DateTime.Now})" />
         @Html.ValidationMessageFor(m => m.VertifyCode)
         <input type="button" value="发送手机验证码" id="sendMsg"/>
         <hr />
@@ -49,6 +49,9 @@
                             alert(data.ErrorMsg);
                         }
                     });
+            });
+            $("#validateImg").click(function() {
+                $(this).attr("src", "/Account/GetValidatorGraphics?date=" + Date.now().toString());
             });
         });
     </script>

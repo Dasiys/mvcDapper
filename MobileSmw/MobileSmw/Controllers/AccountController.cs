@@ -113,7 +113,7 @@ namespace MobileSmw.Controllers
         /// <returns></returns>
         public ActionResult GetValidatorGraphics()
         {
-            var vertifycode = "";
+            string vertifycode;
             var result=_userService.GetVertifyCode(out vertifycode);
             if(Request.Cookies["cqmyg365"]!=null)
                 Request.Cookies.Remove("cqmyg365");
