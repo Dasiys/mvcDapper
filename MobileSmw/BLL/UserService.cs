@@ -39,14 +39,17 @@ namespace BLL
         /// <param name="mobile"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public TB_UserInfo GetUserInfo(string mobile, string password)
+        public TB_UserInfo GetUserAccountInfo(string mobile, string password)
         {
             DynamicParameters param = new DynamicParameters();
             param.Add("Mobile", Function.SqlFilter(mobile.Trim()));
             param.Add("Password", Function.GetMd5(Function.SqlFilter(password.Trim())));
             var condition = "Mobile=@Mobile and password=@Password";
             var fields = "Uid as Id,Mobile,Contact,IsShop";
-            return _userDal.GetSingleModel<TB_UserInfo>(TableName, condition, param, fields);
+            var result = _userDal.GetSingleModel<TB_UserInfo>(TableName, condition, param, fields);
+            if (result == null)
+                ExceptionThrow("LoginError", "请输入正确的用户名和密码");
+            return result;
         }
 
         /// <summary>
@@ -266,12 +269,17 @@ namespace BLL
         /// <returns></returns>
         public LoginInfo GetLoginInfo()
         {
-            var loginInfo = JsonConvert.DeserializeObject<LoginInfo>(Context.Request.Cookies["LoginInfo"].Value);
-            return new LoginInfo()
+            var info = Context.Request.Cookies["LoginInfo"]?.Value;
+            if (info!=null)
             {
-                Mobile = Function.Decrypt(loginInfo.Mobile, "phoneNum"),
-                Password = Function.Decrypt(loginInfo.Password, "passKey")
-            };
+                var loginInfo = JsonConvert.DeserializeObject<LoginInfo>(info);
+                return new LoginInfo()
+                {
+                    Mobile = Function.Decrypt(loginInfo.Mobile, "phoneNum"),
+                    Password = Function.Decrypt(loginInfo.Password, "passKey")
+                };
+            }
+            return null;
         }
 
         /// <summary>

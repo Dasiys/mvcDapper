@@ -35,8 +35,11 @@ namespace BLL
             Function.EntityFilter(model);
             var entity = Mapper.Map<CreditApplyModifyModel, TB_XiMuCreditApply>(model);
             var result = base.Insert(entity);
-            if (result<1)
-                ExceptionThrow("Error","添加失败，请重试");
+            if (result < 1)
+            {
+                _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","信用购申请失败",model);
+                ExceptionThrow("Error", "添加失败，请重试");
+            }
             return result;
         }
 

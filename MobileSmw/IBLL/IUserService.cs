@@ -19,7 +19,7 @@ namespace IBLL
         /// <param name="mobile"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        TB_UserInfo GetUserInfo(string mobile, string password);
+        TB_UserInfo GetUserAccountInfo(string mobile, string password);
 
         /// <summary>
         /// 获取验证码

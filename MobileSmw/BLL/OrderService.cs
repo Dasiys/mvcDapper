@@ -58,7 +58,10 @@ namespace BLL
             param.Add("orderId",orderId);
             var result = _orderDal.GetSingleModel<OrderDetailModel>(tableName, condition, param, field);
             if (result == null)
+            {
+                _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取订单详情失败",new {OrderId=orderId});
                 ExceptionThrow("Error", "获取订单详情失败，请重试");
+            }
             return result;
         }
 

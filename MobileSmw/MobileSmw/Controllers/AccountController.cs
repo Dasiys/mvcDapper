@@ -40,13 +40,7 @@ namespace MobileSmw.Controllers
         [HttpPost]
         public ActionResult Login(string mobile, string password, string returnUrl,int autoLogin)
         {
-            var userInfo = _userService.GetUserInfo(mobile, password);
-            if (userInfo == null)
-            {
-                ModelState.AddModelError("LoginError", "请输入正确的用户名和密码");
-                ViewBag.ReturnUrl = returnUrl;
-                return View();
-            }
+            var userInfo = _userService.GetUserAccountInfo(mobile, password);
             _userService.OperateLoginInfo(mobile,password,autoLogin==1);
             _userService.SaveUserInfo(new CMemberInfo()
             {

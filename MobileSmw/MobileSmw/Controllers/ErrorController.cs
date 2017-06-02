@@ -19,18 +19,18 @@ namespace MobileSmw.Controllers
             if (filterContext.Exception != null)
             {
                 var error = JsonConvert.DeserializeObject<ErrorModel>(filterContext.Exception.Message);
-                if (View().View != null)
-                {
-                    ModelState.AddModelError(error.ErrorName, error.ErrorMsg);
-                    filterContext.Result = View();
-                }
-                else
+                if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
                     Response.Write(JsonConvert.SerializeObject(new ResultModel()
                     {
                         ErrorMsg = error.ErrorMsg,
                         IsSuccess = false
                     }));
+                }
+                else
+                {
+                    ModelState.AddModelError(error.ErrorName, error.ErrorMsg);
+                    filterContext.Result = View();
                 }
                 filterContext.ExceptionHandled = true;
             }

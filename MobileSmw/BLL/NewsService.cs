@@ -50,8 +50,11 @@ namespace BLL
             var param = new DynamicParameters();
             param.Add("NewsId", newsId);
             var result = _newsDal.GetSingleModel<NewsDetailModel>(TableName, condition, param, field);
-            if(result==null)
-                ExceptionThrow("Error","获取动态走势失败，请稍后再试");
+            if (result == null)
+            {
+                _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取动态走势失败",new {NewsId=newsId});
+                ExceptionThrow("Error", "获取动态走势失败，请稍后再试");
+            }
             return result;
         }
     }
