@@ -213,6 +213,7 @@
     <Content Include="Views\News\GetNewsDetail.cshtml" />
     <Content Include="Views\Order\GetOrderQuantity.cshtml" />
     <Content Include="Views\Credit\CreditApply.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
