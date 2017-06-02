@@ -75,13 +75,16 @@ namespace BLL
             var count = _userDal.GetSingleModel<int>(TableName, "Mobile=@Mobile", param, "count(1)");
             if (count > 0)
                 ExceptionThrow("Existed", "此号码已存在");
-            param.Add("@CompanyName", model.CompanyName);
+            param.Add("CompanyName", model.CompanyName);
             param.Add("Password", Function.GetMd5(model.Password));
             param.Add("Contact", model.Contact);
             param.Add("RegType", model.RegType);
             var result = _userDal.ExcuteProc("Proc_RegAdd", param);
             if (result < 1)
+            {
+                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}", "注册失败", model);
                 ExceptionThrow("Error", "注册失败");
+            }
             model.Id = result;
         }
 
@@ -297,7 +300,10 @@ namespace BLL
             var sql = $"update {TableName} set Password=@Password where Uid=@Uid";
             result = Excute(sql, uParam);
             if (result < 1)
+            {
+                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","修改密码失败",new {Uid=id,Password=newPassword});
                 ExceptionThrow("Error", "修改失败，请重试");
+            }
             OperateLoginInfo("", "", false);
         }
 
@@ -314,7 +320,10 @@ namespace BLL
             var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo,Uid";
             var result = _userDal.GetSingleModel<UserInfoModifyModel>(TableName, condition, param, field);
             if (result == null)
+            {
+                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取用户信息失败",new {Uid=uid});
                 ExceptionThrow("Error", "获取用户信息失败，请稍后再试");
+            }
             return result;
         }
 
@@ -329,9 +338,13 @@ namespace BLL
                 "where Uid=@Uid";
             var result = _userDal.Excute(sql, entity);
             if (result < 1)
+            {
+                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","修改用户信息失败",entity);
                 ExceptionThrow("Error", "修改失败，请重试");
+            }
         }
 
         public HttpContext Context { get; set; }
+        private string ServiceName => GetType().Name;
     }
 }

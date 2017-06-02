@@ -73,6 +73,6 @@ namespace IDAL
         /// <param name="procName"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        int ExcuteProc(string procName, DynamicParameters param);
+        int ExcuteProc(string procName, object param);
     }
 }

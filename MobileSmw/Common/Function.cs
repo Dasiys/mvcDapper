@@ -183,7 +183,11 @@ namespace Common
             foreach (var property in entity.GetType().GetProperties())
             {
                 if (property.PropertyType == typeof(string))
-                    property.SetValue(entity, SqlFilter(property.GetValue(entity)?.ToString().Trim()));
+                {
+                    var value = property.GetValue(entity)?.ToString().Trim();
+                    if (!string.IsNullOrEmpty(value))
+                        property.SetValue(entity, SqlFilter(value));
+                }
             }
             return entity;
         }

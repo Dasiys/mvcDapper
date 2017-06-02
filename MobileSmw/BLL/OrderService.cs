@@ -56,7 +56,10 @@ namespace BLL
             string condition = "orderId=@orderId";
             var param=new DynamicParameters();
             param.Add("orderId",orderId);
-            return _orderDal.GetSingleModel<OrderDetailModel>(tableName, condition, param, field);
+            var result = _orderDal.GetSingleModel<OrderDetailModel>(tableName, condition, param, field);
+            if (result == null)
+                ExceptionThrow("Error", "获取订单详情失败，请重试");
+            return result;
         }
 
         /// <summary>

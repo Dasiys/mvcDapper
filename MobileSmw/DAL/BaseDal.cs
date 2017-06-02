@@ -153,7 +153,7 @@ namespace DAL
         /// <param name="procName"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public int ExcuteProc(string procName, DynamicParameters param)
+        public int ExcuteProc(string procName, object param)
         {
             using (var conn=UnitOfWork.GetDbConnection())
             {
