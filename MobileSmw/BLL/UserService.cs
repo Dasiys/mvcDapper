@@ -228,7 +228,7 @@ namespace BLL
         public void Logout()
         {
             if (Context.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
-                Context.Request.Cookies.Remove(FormsAuthentication.FormsCookieName);
+                Context.Response.Cookies[FormsAuthentication.FormsCookieName].Expires=DateTime.Now.AddDays(-1);
             Context.Session.RemoveAll();
         }
 
