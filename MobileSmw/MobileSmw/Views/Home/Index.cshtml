@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Model.Dtos
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -7,7 +8,20 @@
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
-
+<div>
+    @{
+        var notPayQuantity = "";
+        var hasPayedQuantity = "";
+        if (ViewBag.OrderQuantity != null)
+        {
+            var model = (OrderQuantityModel) ViewBag.OrderQuantity;
+            notPayQuantity = model.NotPayQuantity.ToString();
+            hasPayedQuantity = model.HasPayedQuantity.ToString();
+        }
+    }
+    <span>未付款:@notPayQuantity</span> 
+    <span>已付款:@hasPayedQuantity</span>
+</div>
 <div class="row">
     <div class="col-md-4">
         <h2>Getting started</h2>
