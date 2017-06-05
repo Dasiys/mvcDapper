@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Model.MetadataModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Model.Dtos
+namespace Model.ViewModel
 {
     /// <summary>
     /// 用户信息更改Model

@@ -11,13 +11,13 @@ using Model.MetadataModel;
 using IBLL;
 using IDAL;
 using Common;
-using Model.Dtos;
 using System.Web;
 using System.Web.Security;
 using Model;
 using System.Configuration;
 using System.Net.WebSockets;
 using Common.NLog;
+using Model.ViewModel;
 using Newtonsoft.Json;
 
 namespace BLL

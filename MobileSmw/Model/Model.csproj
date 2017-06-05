@@ -49,15 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CMemberInfo.cs" />
-    <Compile Include="Dtos\CateType.cs" />
-    <Compile Include="Dtos\CreditApplyModifyModel.cs" />
-    <Compile Include="Dtos\NewsDetailModel.cs" />
-    <Compile Include="Dtos\NewsListModel.cs" />
-    <Compile Include="Dtos\OrderDetailModel.cs" />
-    <Compile Include="Dtos\OrderListModel.cs" />
-    <Compile Include="Dtos\OrderQuantityModel.cs" />
-    <Compile Include="Dtos\UserInfoModifyModel.cs" />
-    <Compile Include="Dtos\UserRegisterModel.cs" />
+    <Compile Include="ViewModel\CateType.cs" />
+    <Compile Include="ViewModel\CreditApplyModifyModel.cs" />
+    <Compile Include="ViewModel\NewsDetailModel.cs" />
+    <Compile Include="ViewModel\NewsListModel.cs" />
+    <Compile Include="ViewModel\OrderDetailModel.cs" />
+    <Compile Include="ViewModel\OrderListModel.cs" />
+    <Compile Include="ViewModel\OrderQuantityModel.cs" />
+    <Compile Include="ViewModel\UserInfoModifyModel.cs" />
+    <Compile Include="ViewModel\UserRegisterModel.cs" />
     <Compile Include="ErrorModel.cs" />
     <Compile Include="LoginInfo.cs" />
     <Compile Include="MetadataModel\AllocationType.cs" />
@@ -79,5 +79,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

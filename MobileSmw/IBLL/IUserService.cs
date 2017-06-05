@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Model.MetadataModel;
 using IOC;
-using Model.Dtos;
 using System.Web;
 using Model;
+using Model.ViewModel;
 
 namespace IBLL
 {

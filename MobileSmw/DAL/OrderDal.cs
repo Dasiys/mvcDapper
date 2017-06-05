@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Common.UnitOfWork;
 using Dapper;
 using IDAL;
-using Model.Dtos;
 using Model.MetadataModel;
+using Model.ViewModel;
 
 namespace DAL
 {

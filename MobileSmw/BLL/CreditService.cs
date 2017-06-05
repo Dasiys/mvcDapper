@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Common.NLog;
 using IBLL;
 using IDAL;
-using Model.Dtos;
 using Model.MetadataModel;
 using AutoMapper;
 using Common;
+using Model.ViewModel;
 
 namespace BLL
 {

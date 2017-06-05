@@ -4,7 +4,7 @@ using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model.Dtos;
+using Model.ViewModel;
 
 namespace Model.MetadataModel
 {

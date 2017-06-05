@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model.MetadataModel;
 
-namespace Model.Dtos
+namespace Model.ViewModel
 {
     public class OrderListModel
     {

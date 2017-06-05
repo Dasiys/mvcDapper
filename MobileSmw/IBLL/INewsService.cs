@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IOC;
-using Model.Dtos;
 using Model.MetadataModel;
+using Model.ViewModel;
 
 namespace IBLL
 {

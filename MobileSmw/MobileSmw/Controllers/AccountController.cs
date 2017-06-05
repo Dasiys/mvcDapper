@@ -10,7 +10,7 @@ using Common;
 using Model;
 using Model.MetadataModel;
 using IBLL;
-using Model.Dtos;
+using Model.ViewModel;
 
 namespace MobileSmw.Controllers
 {

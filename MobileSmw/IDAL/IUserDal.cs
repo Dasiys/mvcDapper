@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model.MetadataModel;
 using IOC;
-using Model.Dtos;
+using Model.ViewModel;
 
 namespace IDAL
 {

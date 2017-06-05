@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Model.Dtos
+namespace Model.ViewModel
 {
     /// <summary>
     /// 新闻列表模型

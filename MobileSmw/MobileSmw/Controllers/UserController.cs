@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IBLL;
-using Model.Dtos;
+using Model.ViewModel;
 
 namespace MobileSmw.Controllers
 {

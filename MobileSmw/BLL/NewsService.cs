@@ -8,8 +8,8 @@ using Common.NLog;
 using Dapper;
 using IBLL;
 using IDAL;
-using Model.Dtos;
 using Model.MetadataModel;
+using Model.ViewModel;
 
 namespace BLL
 {

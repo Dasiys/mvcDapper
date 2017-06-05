@@ -8,7 +8,7 @@ using Common.UnitOfWork;
 using Dapper;
 using Model.MetadataModel;
 using IDAL;
-using Model.Dtos;
+using Model.ViewModel;
 
 namespace DAL
 {

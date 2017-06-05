@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model.Dtos
+﻿namespace Model.ViewModel
 {
     /// <summary>
     /// 订单数量模型

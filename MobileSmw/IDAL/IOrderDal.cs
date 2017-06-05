@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using IOC;
-using Model.Dtos;
 using Model.MetadataModel;
+using Model.ViewModel;
 
 namespace IDAL
 {
