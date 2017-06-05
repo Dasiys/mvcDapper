@@ -22,24 +22,24 @@ namespace MobileSmw.Controllers
             var actionDescriptor = filterContext.ActionDescriptor;
             string returnUrl = $"/{actionDescriptor.ControllerDescriptor.ControllerName}/{actionDescriptor.ActionName}";
             var cookie = request.Cookies[FormsAuthentication.FormsCookieName];
-            var token = string.IsNullOrEmpty(cookie?.Value)?"":FormsAuthentication.Decrypt(cookie.Value)?.UserData;
+            var token = string.IsNullOrEmpty(cookie?.Value) ? "" : FormsAuthentication.Decrypt(cookie.Value)?.UserData;
             if (string.IsNullOrEmpty(token))
             {
                 filterContext.Result = LoginResult(returnUrl);
                 return;
             }
-            var session =filterContext.HttpContext.Session[token];
+            var session = filterContext.HttpContext.Session?[token];
             if (session == null)
             {
                 filterContext.Result = LoginResult(returnUrl);
                 return;
             }
-            CMemberInfo = (CMemberInfo) session;
+            CMemberInfo = (CMemberInfo)session;
         }
 
         public virtual ActionResult LoginResult(string ReturnUrl)
         {
-            return RedirectToAction("Login", "Account", new { ReturnUrl});
+            return RedirectToAction("Login", "Account", new { ReturnUrl });
         }
     }
 }
