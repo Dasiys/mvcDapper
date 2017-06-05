@@ -25,7 +25,6 @@ namespace BLL
     public class UserService : BaseService<TB_UserInfo>, IUserService
     {
         private readonly IUserDal _userDal;
-        private const string TableName = "TB_UserInfo";
 
         public UserService(IUserDal userDal, ILogFactory logFactory) : base(userDal, logFactory)
         {

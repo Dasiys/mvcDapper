@@ -28,7 +28,7 @@ namespace MobileSmw.Controllers
                 filterContext.Result = LoginResult(returnUrl);
                 return;
             }
-            var session = Session[token];
+            var session =filterContext.HttpContext.Session[token];
             if (session == null)
             {
                 filterContext.Result = LoginResult(returnUrl);
