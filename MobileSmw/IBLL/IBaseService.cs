@@ -65,11 +65,5 @@ namespace IBLL
         /// <returns></returns>
         PageDataView<TM> GetPageData<TM>(PageCriteria criteria, object param = null)
             where TM : class, IEntityBase, new();
-        /// <summary>
-        /// 抛出异常
-        /// </summary>
-        /// <param name="errorName"></param>
-        /// <param name="errormsg"></param>
-        void ExceptionThrow(string errorName, string errormsg);
     }
 }

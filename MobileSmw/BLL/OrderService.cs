@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using Common.NLog;
 using Dapper;
 using IBLL;
@@ -31,17 +32,7 @@ namespace BLL
         /// <returns></returns>
         public IList<OrderListModel> GetOrders(OrderStatus status,int buyUid)
         {
-            var param=new DynamicParameters();
-            var condition = "BuyUid=@BuyUid";
-            param.Add("BuyUid",buyUid);
-            if (status != OrderStatus.All)
-            {
-                condition = " and Status=@Status";
-                param.Add("Status", status);
-            }
-            var fields =
-                "top 1 OrderID,ProductName,Count,Unit,Price,Status,Img,[Size] as Size,Money";
-           return  _orderDal.GetModels<OrderListModel>("View_TB_Order_OrderDetail", condition, param, fields);
+            return _orderDal.GetOrders(status, buyUid);
         }
 
         /// <summary>
@@ -51,16 +42,11 @@ namespace BLL
         /// <returns></returns>
         public OrderDetailModel GetOrderDetail(string orderId)
         {
-            string tableName = "View_TB_Order_OrderDetail inner join TB_UserInfo on SellUid=Uid";
-            string field = "CompanyName as SellCompany,View_TB_Order_OrderDetail.InputTime,StoreAddr,Img,[Size] as Size,Money,Price,Count,Unit,ProductName,Status,OrderId";
-            string condition = "orderId=@orderId";
-            var param=new DynamicParameters();
-            param.Add("orderId",orderId);
-            var result = _orderDal.GetSingleModel<OrderDetailModel>(tableName, condition, param, field);
+            var result = _orderDal.GetOrderDetail(orderId);
             if (result == null)
             {
                 _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取订单详情失败",new {OrderId=orderId});
-                ExceptionThrow("Error", "获取订单详情失败，请重试");
+                Function.ExceptionThrow("Error", "获取订单详情失败，请重试");
             }
             return result;
         }
@@ -72,26 +58,7 @@ namespace BLL
         /// <returns></returns>
         public OrderQuantityModel GetOrderQuantity(int buyUid)
         {
-            var tableName = "TB_order";
-            var sql = $"select count(1) as NotPayQuantity  from {tableName} where BuyUid=@BuyUid and Status=1 " +
-                      $"select count(1) as HasPayedQuantity from {tableName} where BuyUid=@BuyUid and Status in (2,3,4)";
-            var param = new DynamicParameters();
-            param.Add("BuyUid", buyUid);
-            Func<SqlMapper.GridReader, OrderQuantityModel> func = multi =>
-            {
-                if (!multi.IsConsumed)
-                {
-                    var result1 = multi.Read();
-                    var result2 = multi.Read();
-                    return new OrderQuantityModel
-                    {
-                        NotPayQuantity = Convert.ToInt32(result1.FirstOrDefault()?.NotPayQuantity),
-                        HasPayedQuantity = Convert.ToInt32(result2.FirstOrDefault()?.HasPayedQuantity)
-                    };
-                }
-                return new OrderQuantityModel();
-            };
-            return _orderDal.MultipleQuery(sql, param, func);
+            return _orderDal.GetOrderQuantity(buyUid);
         }
     }
 }

@@ -62,12 +62,6 @@ namespace BLL
             return Basedal.GetPageData<TM>(criteria, param);
         }
 
-        public void ExceptionThrow(string errorName, string errormsg)
-        {
-
-            throw  new Exception("{"+$"\"ErrorName\":\"{errorName}\",\"ErrorMsg\":\"{errormsg}\"" +"}");
-        }
-
         public virtual void Validate(T entity)
         {
             

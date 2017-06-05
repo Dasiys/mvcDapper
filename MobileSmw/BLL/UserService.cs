@@ -41,14 +41,10 @@ namespace BLL
         /// <returns></returns>
         public TB_UserInfo GetUserAccountInfo(string mobile, string password)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("Mobile", Function.SqlFilter(mobile.Trim()));
-            param.Add("Password", Function.GetMd5(Function.SqlFilter(password.Trim())));
-            var condition = "Mobile=@Mobile and password=@Password";
-            var fields = "Uid as Id,Mobile,Contact,IsShop";
-            var result = _userDal.GetSingleModel<TB_UserInfo>(TableName, condition, param, fields);
+            var result = _userDal.GetUserAccountInfo(Function.SqlFilter(mobile.Trim()),
+                Function.GetMd5(Function.SqlFilter(password.Trim())));
             if (result == null)
-                ExceptionThrow("LoginError", "请输入正确的用户名和密码");
+                Function.ExceptionThrow("LoginError", "请输入正确的用户名和密码");
             return result;
         }
 
@@ -73,22 +69,14 @@ namespace BLL
         public void RegisterUser(UserRegisterModel model)
         {
             Check(model);
-            DynamicParameters param = new DynamicParameters();
-            param.Add("Mobile", model.Mobile.Trim());
-            var count = _userDal.GetSingleModel<int>(TableName, "Mobile=@Mobile", param, "count(1)");
-            if (count > 0)
-                ExceptionThrow("Existed", "此号码已存在");
-            param.Add("CompanyName", model.CompanyName);
-            param.Add("Password", Function.GetMd5(model.Password));
-            param.Add("Contact", model.Contact);
-            param.Add("RegType", model.RegType);
-            var result = _userDal.ExcuteProc("Proc_RegAdd", param);
-            if (result < 1)
-            {
-                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}", "注册失败", model);
-                ExceptionThrow("Error", "注册失败");
-            }
-            model.Id = result;
+            var findUserByMobile = _userDal.FindUserByMobile(model.Mobile);
+            if (findUserByMobile > 0)
+                Function.ExceptionThrow("Existed", "此号码已存在");
+            var addUserResult = _userDal.AddUser(model.Mobile, model.CompanyName, Function.GetMd5(model.Password),
+                model.Contact, model.RegType);
+            if (addUserResult < 1)
+                Function.ExceptionThrow("Error", "注册失败");
+            model.Id = addUserResult;
         }
 
         /// <summary>
@@ -99,16 +87,16 @@ namespace BLL
         {
             Function.EntityFilter<UserRegisterModel>(model);
             if (!IsMobile(model.Mobile))
-                ExceptionThrow("MobileError", "请输入正确格式的手机号码");
+                Function.ExceptionThrow("MobileError", "请输入正确格式的手机号码");
 
             if (!IsPass(model.Password))
-                ExceptionThrow("PassError", "请输入正确格式的密码");
+                Function.ExceptionThrow("MobileError", "请输入正确格式的手机号码");
 
             var vertifyCode = Context.Request.Cookies["cqmyg365"]?.Value;
             if (string.IsNullOrEmpty(vertifyCode))
-                ExceptionThrow("VertifyCodeError", "验证码失效");
+                Function.ExceptionThrow("MobileError", "请输入正确格式的手机号码");
             if (Function.GetMd5(model.VertifyCode) != vertifyCode)
-                ExceptionThrow("VertifyCodeError", "请输入正确的验证码");
+                Function.ExceptionThrow("MobileError", "请输入正确格式的手机号码");
 
             //model.MobileMessage = Function.SqlFilter(model.MobileMessage?.Trim());
             //if (string.IsNullOrEmpty(model.CookieMobileMessage))
@@ -193,17 +181,17 @@ namespace BLL
                     if (result.code != 0)
                     {
                         _LogFactory.Error("UserService:SendMobileMsg", result.detail, result);
-                        ExceptionThrow("MobileMessage", "发送验证码失败，请稍后再试");
+                        Function.ExceptionThrow("MobileMessage", "发送验证码失败，请稍后再试");
                     }
                 }
                 else
                 {
-                    ExceptionThrow("VertifyCodeError", "验证码输入错误");
+                    Function.ExceptionThrow("VertifyCodeError", "验证码输入错误");
                 }
             }
             else
             {
-                ExceptionThrow("VertifyCodeError", "验证码失效");
+                Function.ExceptionThrow ("VertifyCodeError", "验证码失效");
             }
         }
 
@@ -290,28 +278,18 @@ namespace BLL
         /// <param name="id"></param>
         public void UpdatePassword(string newPassword, string oldPassword, int id)
         {
-            var param = new DynamicParameters();
-            param.Add("Uid", id);
-            param.Add("Password", Function.GetMd5(Function.SqlFilter(oldPassword.Trim())));
-            var condition = " Uid=@Uid and Password=@Password";
-            var result = GetSingleModel<int>(TableName, condition, param, "count(1)");
-            if (result < 1)
-                ExceptionThrow("Error", "密码输入错误");
-
             newPassword = Function.SqlFilter(newPassword.Trim());
             if (!IsPass(newPassword))
-                ExceptionThrow("ErrorNewPas", "密码格式错误");
+                Function.ExceptionThrow("ErrorNewPas", "密码格式错误");
 
-            var uParam = new DynamicParameters();
-            uParam.Add("Password", Function.GetMd5(newPassword));
-            uParam.Add("Uid", id);
-            var sql = $"update {TableName} set Password=@Password where Uid=@Uid";
-            result = Excute(sql, uParam);
-            if (result < 1)
-            {
-                _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","修改密码失败",new {Uid=id,Password=newPassword});
-                ExceptionThrow("Error", "修改失败，请重试");
-            }
+            var userFindResult = _userDal.FindUserByIdentity(id, Function.GetMd5(Function.SqlFilter(oldPassword.Trim())));
+            if (userFindResult < 1)
+                Function.ExceptionThrow("Error", "密码输入错误");
+
+            var updatePasResult = _userDal.UpdatePassword(Function.GetMd5(newPassword), id);
+            if (updatePasResult < 1)
+                Function.ExceptionThrow("Error", "修改失败，请重试");
+
             OperateLoginInfo("", "", false);
         }
 
@@ -322,15 +300,11 @@ namespace BLL
         /// <returns></returns>
         public UserInfoModifyModel GetUserInfoDetail(int uid)
         {
-            DynamicParameters param = new DynamicParameters();
-            param.Add("Uid", uid);
-            var condition = "Uid=@uid";
-            var field = "CompanyName,Mobile,Contact,Email,QQ,Tel,Addr,Photo,Uid";
-            var result = _userDal.GetSingleModel<UserInfoModifyModel>(TableName, condition, param, field);
+            var result = _userDal.GetUserInfoDetail(uid);
             if (result == null)
             {
                 _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取用户信息失败",new {Uid=uid});
-                ExceptionThrow("Error", "获取用户信息失败，请稍后再试");
+                Function.ExceptionThrow("Error", "获取用户信息失败，请稍后再试");
             }
             return result;
         }
@@ -341,16 +315,14 @@ namespace BLL
         /// <param name="entity"></param>
         public void UpdateUserInfo(UserInfoModifyModel entity)
         {
-            var sql =
-                $"Update {TableName} Set CompanyName=@CompanyName,Mobile=@Mobile,Contact=@Contact,Email=@Email,QQ=@QQ,Tel=@Tel,Addr=@Addr,Photo=@Photo " +
-                "where Uid=@Uid";
-            var result = _userDal.Excute(sql, entity);
+            var result =_userDal.UpdateUserInfo(entity);
             if (result < 1)
             {
                 _LogFactory.Error($"{ServiceName}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","修改用户信息失败",entity);
-                ExceptionThrow("Error", "修改失败，请重试");
+                Function.ExceptionThrow("Error", "修改失败，请重试");
             }
         }
+
 
         public HttpContext Context { get; set; }
         private string ServiceName => GetType().Name;

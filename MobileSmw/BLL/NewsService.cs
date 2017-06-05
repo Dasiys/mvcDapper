@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 using Common.NLog;
 using Dapper;
 using IBLL;
@@ -18,7 +19,6 @@ namespace BLL
     public class NewsService : BaseService<TB_News>, INewsService
     {
         private readonly INewsDal _newsDal;
-        private const string TableName = "TB_News";
 
         public NewsService(INewsDal newsDal, ILogFactory logFactory) : base(newsDal, logFactory)
         {
@@ -31,12 +31,7 @@ namespace BLL
         /// <returns></returns>
         public IList<NewsListModel> GetNewsList(CateType cateId)
         {
-            var filed = "top 10 NewsId,Title,Img,InputTime,Summary";
-            var condition = "Recommend=@Recommend and CateId=@CateId";
-            var param = new DynamicParameters();
-            param.Add("Recommend", 1);
-            param.Add("CateId", cateId);
-            return _newsDal.GetModels<NewsListModel>(TableName, condition, param, filed);
+            return _newsDal.GetNewsList(cateId);
         }
         /// <summary>
         /// 获取新闻详情
@@ -45,15 +40,11 @@ namespace BLL
         /// <returns></returns>
         public NewsDetailModel GetNewsDetail(int newsId)
         {
-            var field = "NewsId,Title,Img,InputTime,Content";
-            var condition = "NewsId=@NewsId";
-            var param = new DynamicParameters();
-            param.Add("NewsId", newsId);
-            var result = _newsDal.GetSingleModel<NewsDetailModel>(TableName, condition, param, field);
+            var result = _newsDal.GetNewsDetail(newsId);
             if (result == null)
             {
                 _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","获取动态走势失败",new {NewsId=newsId});
-                ExceptionThrow("Error", "获取动态走势失败，请稍后再试");
+                Function.ExceptionThrow("Error", "获取动态走势失败，请稍后再试");
             }
             return result;
         }

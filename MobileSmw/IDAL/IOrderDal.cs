@@ -14,12 +14,25 @@ namespace IDAL
     {
 
         /// <summary>
-        /// Multiple Query
+        /// 设置或获取订单列表
         /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="param"></param>
-        /// <param name="func"></param>
+        /// <param name="status"></param>
+        /// <param name="buyUid"></param>
         /// <returns></returns>
-        TM MultipleQuery<TM>(string sql, DynamicParameters param, Func<SqlMapper.GridReader, TM> func);
+        IList<OrderListModel> GetOrders(OrderStatus status, int buyUid);
+
+        /// <summary>
+        /// 设置或获取订单详情
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        OrderDetailModel GetOrderDetail(string orderId);
+
+        /// <summary>
+        /// 获得订单数量
+        /// </summary>
+        /// <param name="buyUid"></param>
+        /// <returns></returns>
+       OrderQuantityModel GetOrderQuantity(int buyUid);
     }
 }

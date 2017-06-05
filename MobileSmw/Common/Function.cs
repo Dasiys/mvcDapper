@@ -191,5 +191,11 @@ namespace Common
             }
             return entity;
         }
+
+        public static void ExceptionThrow(string errorName, string errormsg)
+        {
+
+            throw new Exception("{" + $"\"ErrorName\":\"{errorName}\",\"ErrorMsg\":\"{errormsg}\"" + "}");
+        }
     }
 }

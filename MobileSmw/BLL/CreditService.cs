@@ -38,7 +38,7 @@ namespace BLL
             if (result < 1)
             {
                 _LogFactory.Error($"{GetType().Name}:{new System.Diagnostics.StackTrace().GetFrame(0).GetMethod().Name}","信用购申请失败",model);
-                ExceptionThrow("Error", "添加失败，请重试");
+                Function.ExceptionThrow("Error", "添加失败，请重试");
             }
             return result;
         }
@@ -54,7 +54,7 @@ namespace BLL
                 string pattern = @"^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$";
                 if (!Regex.IsMatch(entity.CardID, pattern, RegexOptions.IgnoreCase))
                 {
-                   ExceptionThrow("CardIdError","请输入有效证件号");
+                   Function.ExceptionThrow("CardIdError","请输入有效证件号");
                 }
             }
             base.Validate(entity);
